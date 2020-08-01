@@ -16,9 +16,9 @@
 
 @media screen and (max-width: 800px){
   .profile__text{
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	-ms-flex-align: center;
+	  -webkit-box-align: center;
+	  -webkit-align-items: center;
+	  -ms-flex-align: center;
     align-items: center;
   }
 }

@@ -1,6 +1,6 @@
 let popup = document.querySelector('.popup'); //Окно с popup
 let editButton = document.querySelector('.profile__edit-button'); //Кнопка редактирования
-let exitButton = document.querySelector('.popup__button-reset'); //Кнопка выхода
+let closeButton = document.querySelector('.popup__button-close'); //Кнопка выхода
 let formElement = document.querySelector('.popup__form');  //Форма
 let profileTitle = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 let profileSubtitle = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
@@ -31,4 +31,4 @@ function formSubmitHandler (evt) {
 
 formElement.addEventListener('submit', formSubmitHandler);
 editButton.addEventListener('click', controlEdit);  //Вход в окно редактирования 
-exitButton.addEventListener('click', controlEdit);  //Выход из окна редактирования
+closeButton.addEventListener('click', controlEdit);  //Выход из окна редактирования

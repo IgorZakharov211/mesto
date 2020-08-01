@@ -22,19 +22,19 @@
 
 @media screen and (max-width: 1024px){
   .profile{
-	width: calc(100% - 142px);
+	  width: calc(100% - 142px);
   }
 }
 
 @media screen and (max-width: 800px){
   .profile{
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: column;
-	-ms-flex-direction: column;
-	flex-direction: column;
-	width: calc(100% - 19px + 19px);
-	padding-bottom: 36px;
+	  -webkit-box-orient: vertical;
+	  -webkit-box-direction: normal;
+	  -webkit-flex-direction: column;
+	  -ms-flex-direction: column;
+	  flex-direction: column;
+	  width: calc(100% - 19px + 19px);
+	  padding-bottom: 36px;
   }
 }
 

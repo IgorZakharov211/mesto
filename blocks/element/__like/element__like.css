@@ -6,4 +6,9 @@
   height: 18.13px;
   margin-right: 18.24px;
   cursor: pointer;
+  transition: transform .2s ease-in;
+}
+
+.element__like:hover{
+  transform: scale(1.2);
 }
