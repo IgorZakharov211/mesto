@@ -22,9 +22,9 @@
   .popup__button-close{
     position: relative;
     width: 30.7px;
-	  height: 30.7px;
-	  top: 10%;
-	  left: 90%;
+    height: 30.7px;
+    top: 10%;
+    left: 90%;
     background-image: url('../../../images/button-reset-black.svg');
   }
 }
