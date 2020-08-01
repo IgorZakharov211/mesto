@@ -1,0 +1,18 @@
+.popup__container{
+	width: 430px;
+	height: 330px;
+	position: fixed;
+	background-color: #ffffff;
+	top: calc(50% - (330px / 2));
+	left: calc(50% - (430px / 2));
+	border-radius: 10px;
+	box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 430px){
+	.popup__container{
+		width: 100%;
+		left: 0;
+	}
+}
+
