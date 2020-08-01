@@ -6,18 +6,18 @@
 
 @media screen and (max-width: 1024px){
   .header{
-	  width: calc(100% - 142px);
+    width: calc(100% - 142px);
   }
 }
 
 @media screen and (max-width: 768px){
   .header{
-	  width: 100%;
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 425px){
   .header{
-	  padding: 28px 0 31.6px 0;
+    padding: 28px 0 31.6px 0;
   }
 }
