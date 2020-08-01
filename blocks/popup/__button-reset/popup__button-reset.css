@@ -1,15 +1,17 @@
 .popup__button-reset{
-	position: fixed;
-	width: 40.7px;
-	height: 40.7px;
-	left: calc(50% + 215px);
-	top: calc(50% - 165px - 40.7px);
-	background-color: rgba(0, 0, 0, .0);
-	background-image: url('../../../images/button-reset.svg');
-	background-position: center;
-	border: none;
-	cursor: pointer;
-	transition: opacity .3s ease-out;
+  position: fixed;
+  width: 40.7px;
+  height: 40.7px;
+  left: calc(50% + 215px);
+  top: calc(50% - 165px - 40.7px);
+  background-color: rgba(0, 0, 0, .0);
+  background-image: url('../../../images/button-reset.svg');
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: opacity .3s ease-out;
+  -o-transition: opacity .3s ease-out;
+  transition: opacity .3s ease-out;
 }
 
 .popup__button-reset:hover{
@@ -20,9 +22,9 @@
   .popup__button-reset{
   	position: relative;
   	width: 30.7px;
-	  height: 30.7px;
-	  top: 10%;
-	  left: 90%;
+	height: 30.7px;
+	top: 10%;
+	left: 90%;
   	background-image: url('../../../images/button-reset-black.svg');
   }
 }
