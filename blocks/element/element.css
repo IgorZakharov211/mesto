@@ -1,7 +1,8 @@
 .element{
   width: 282px;
   height: 361px;
-  border-radius: 11px 11px 10px 10px;
+  border-radius: 10px;
+  overflow: hidden;
   background-color: #ffffff;
   display: -webkit-box;
   display: -webkit-flex;
