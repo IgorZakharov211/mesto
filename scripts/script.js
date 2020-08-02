@@ -9,7 +9,7 @@ let jobInput = formElement.querySelector('.popup__input:last-of-type'); //Пол
 
 //Функция для открытия/закрытия модального окна, через класс popup_opened
 function controlEdit(){
-  if(popup.classList.contains('popup_opened') == true){
+  if(popup.classList.contains('popup_opened')){
     popup.classList.remove('popup_opened');
   } else{
     popup.classList.add('popup_opened');
