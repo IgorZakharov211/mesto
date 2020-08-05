@@ -4,9 +4,3 @@
   margin: 34px auto 0 auto;
   padding: 0;
 }
-
-@media screen and (max-width: 560px){
-  .popup__fieldset{
-    margin: 0 auto;
-  }
-}
