@@ -11,19 +11,6 @@
 </head>
 <body>
   <div class="page">
-    <div class="popup">
-      <div class="popup__container">
-        <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
-	<form class="popup__form" action="#" method="POST" name="popup">
-	  <fieldset class="popup__fieldset">
-	    <h2 class="popup__heading">Редактировать профиль</h2>
-	    <input type="text" class="popup__input" placeholder="Жак-Ив Кусто" name="name" value="" required>
-	    <input type="text" class="popup__input" placeholder="Исследователь океана" name="job" value="" required>
-	    <button class="popup__button-save" type="submit">Сохранить</button>
-          </fieldset>
-	</form>
-      </div>
-    </div>
     <header class="header page__header">
       <img src="images/header-logo.svg" alt="Логотип" class="header__logo">
     </header>
@@ -40,54 +27,47 @@
     	<button class="profile__add-button" type="button" aria-label="Добавить"></button>
       </section>
       <section class="elements content__elements">
-        <div class="element">
-    	  <img src="images/ruskeala.jpg" alt="Горный парк Рускеала" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Горный парк Рускеала</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
-    	<div class="element">
-    	  <img src="images/petropavlovsk-kamchatsky.jpg" alt="Петропавловск-Камчатский" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Петропавловск-Камчатский</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
-    	<div class="element">
-    	  <img src="images/kazan.jpg" alt="Казань" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Казань</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
-    	<div class="element">
-    	  <img src="images/baikal-lake.jpg" alt="Озеро Байкал" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Озеро Байкал</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
-    	<div class="element">
-    	  <img src="images/altaj.jpg" alt="Республика Алтай" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Республика Алтай</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
-    	<div class="element">
-    	  <img src="images/elbrus.jpg" alt="Эльбрус" class="element__image">
-    	  <div class="element__info">
-    	    <h2 class="element__title">Эльбрус</h2>
-    	    <button class="element__like" type="button"></button>
-    	  </div>
-    	</div>
       </section>
     </main>
     <footer class="footer page__footer">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
+        <form class="popup__form" action="#" method="POST" name="popup">
+          <fieldset class="popup__fieldset">
+            <h2 class="popup__heading">Редактировать профиль</h2>
+            <input type="text" class="popup__input" placeholder="Жак-Ив Кусто" name="name" value="" required>
+            <input type="text" class="popup__input" placeholder="Исследователь океана" name="job" value="" required>
+            <button class="popup__button-save" type="submit">Сохранить</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
+        <form class="popup__form" action="#" method="POST" name="popup-places">
+          <fieldset class="popup__fieldset">
+            <h2 class="popup__heading">Новое место</h2>
+            <input type="text" class="popup__input" placeholder="Название" name="title" value="" required>
+            <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="url" value="" required>
+            <button class="popup__button-save" type="submit">Создать</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </div>
+  <template id="element">
+    <div class="element">
+        <img src="" alt="" class="element__image">
+        <div class="element__info">
+          <h2 class="element__title"></h2>
+          <button class="element__like" type="button"></button>
+        </div>
+      </div>
+  </template>
   <script src="scripts/script.js"></script>
 </body>
 </html>
