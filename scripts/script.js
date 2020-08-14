@@ -14,6 +14,8 @@ const titleInput = addElement.querySelector('.popup__input:first-of-type'); //П
 const urlInput = addElement.querySelector('.popup__input:last-of-type'); //Поле ввода ссылки на картинку
 const elements = document.querySelector('.elements');
 const placeTemplate = document.querySelector('#element').content;
+let element;
+let likeButton;
 const initialCards = [
     {
       name: 'Архыз',
@@ -41,31 +43,31 @@ const initialCards = [
     }
 ];
 
-function loadCards(){
-  initialCards.forEach(function (item){
-    const cardsElement = placeTemplate.cloneNode(true);
-    cardsElement.querySelector('.element__image').src = item.link;
-    cardsElement.querySelector('.element__title').textContent = item.name;
-    elements.prepend(cardsElement);
+initialCards.forEach(function (item){
+  const cardsElement = placeTemplate.cloneNode(true);
+  cardsElement.querySelector('.element__image').src = item.link;
+  cardsElement.querySelector('.element__title').textContent = item.name;
+  elements.prepend(cardsElement);
+  element = document.querySelector('.element');
+  likeButton = document.querySelector('.element__like');
+  likeButton.addEventListener('click', function (evt){
+    const eventTarget = evt.target;
+    eventTarget.classList.toggle('element__like_active');
   });
-}
+});
 
 
-
-
-
-
-//Функции для открытия/закрытия модального окна, через класс popup_opened
+//Функции для открытия/закрытия окна редактирования, через класс popup_opened
 function controlEdit(){
   popup.classList.toggle('popup_opened');
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 }
 
+//Функции для открытия/закрытия окна добавления мест, через класс popup_opened
 function controlAdd(){
   popupPlaces.classList.toggle('popup_opened');
 }
-
 
 function formSubmitHandler (evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
@@ -86,8 +88,21 @@ function formAddHandler (evt) {
   placeElement.querySelector('.element__image').src = urlValue;
   placeElement.querySelector('.element__title').textContent = titleValue;
   elements.prepend(placeElement);
+  element = document.querySelector('.element');
+  likeButton = document.querySelector('.element__like');
+  likeButton.addEventListener('click', function(){
+    likeButton.classList.toggle('element__like_active');
+  });
   controlAdd();  //Закрываю окно
 }
+
+//Функции для добавления кнопки like
+
+
+  
+
+
+
 
 
 
@@ -97,4 +112,6 @@ editButton.addEventListener('click', controlEdit);  //Вход в окно ре�
 closeEditButton.addEventListener('click', controlEdit);  //Выход из окна редактирования
 addButton.addEventListener('click', controlAdd);  //Вход в окно добавления
 closeAddButton.addEventListener('click', controlAdd); //Выход из окна добавления карточек
-loadCards();
+
+
+
