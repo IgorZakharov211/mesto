@@ -1,0 +1,30 @@
+.image__button-close{
+  position: relative;
+  width: 40.7px;
+  height: 40.7px;
+  margin: 0;
+  padding: 0;
+  left: 100%;
+  background-color: rgba(0, 0, 0, .0);
+  background-image: url('../../../images/button-reset.svg');
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: opacity .3s ease-out;
+  -o-transition: opacity .3s ease-out;
+  transition: opacity .3s ease-out;
+  align-self: flex-start;
+}
+
+.image__button-close:hover{
+  opacity: .6;
+}
+
+@media screen and (max-width: 520px){
+  .image__button-close{
+    width: 30px;
+    height: 30px;
+    left: calc(100% + 5px);
+    top: -5px;
+  }
+}

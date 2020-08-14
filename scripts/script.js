@@ -1,4 +1,4 @@
-const popup = document.querySelector('.popup:first-of-type'); //Окно с popup редактирования профиля
+const popup = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
 const editButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
 const closeEditButton = popup.querySelector('.popup__button-close'); //Кнопка выхода из окна редактирования
 const formElement = popup.querySelector('.popup__form');  //Форма
@@ -6,7 +6,7 @@ const profileTitle = document.querySelector('.profile__title'); //Имя на с
 const profileSubtitle = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
 const nameInput = formElement.querySelector('.popup__input:first-of-type'); //Поле ввода имени
 const jobInput = formElement.querySelector('.popup__input:last-of-type'); //Поле ввода должности
-const popupPlaces = document.querySelector('.popup:last-of-type'); //Окно с popup редактирования места
+const popupPlaces = document.querySelector('.popup:nth-of-type(2n)'); //Окно с popup редактирования места
 const addButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
 const closeAddButton = popupPlaces.querySelector('.popup__button-close'); //Кнопка выхода из окна добавления карточек
 const addElement = popupPlaces.querySelector('.popup__form'); //Форма добавления карточек
@@ -17,6 +17,12 @@ const placeTemplate = document.querySelector('#element').content;
 let element;
 let likeButton;
 let removeButton;
+let linkImage;
+const popupImage = document.querySelector('.image');
+const imagePic = popupImage.querySelector('.image__pic');
+const imageSubtitle = popupImage.querySelector('.image__subtitle');
+const closeImageButton = popupImage.querySelector('.image__button-close');
+
 const initialCards = [
     {
       name: 'Архыз',
@@ -71,10 +77,12 @@ function formSubmitHandler (evt) {
 function addCards(link, name){
   const cardsElement = placeTemplate.cloneNode(true);
   cardsElement.querySelector('.element__image').src = link;
+  cardsElement.querySelector('.element__image').alt = name;
   cardsElement.querySelector('.element__title').textContent = name;
   elements.prepend(cardsElement);
   likeButton = document.querySelector('.element__like');
   removeButton = document.querySelector('.element__remove');
+  linkImage = document.querySelector('.element__link');
   likeButton.addEventListener('click', function (evt){
     const likeTarget = evt.target;
     likeTarget.classList.toggle('element__like_active');
@@ -83,6 +91,11 @@ function addCards(link, name){
     const removeTarget = evt.target;
     removeTarget.parentElement.remove();
   });
+  linkImage.addEventListener('click', function (evt){
+    const imageTarget = evt.target;
+    imageOpen(link, name);
+  })
+
 }
 
 
@@ -102,15 +115,24 @@ function loadCards(){
   });
 }
 
+function imageOpen(link, subtitle){
+  popupImage.classList.toggle('image_opened');
+  imagePic.src = link;
+  imagePic.alt = subtitle;
+  imageSubtitle.textContent = subtitle;
+}
+
 
 
 loadCards();
+
 formElement.addEventListener('submit', formSubmitHandler);
 addElement.addEventListener('submit', formAddHandler);
 editButton.addEventListener('click', controlEdit);  //Вход в окно редактирования 
 closeEditButton.addEventListener('click', controlEdit);  //Выход из окна редактирования
 addButton.addEventListener('click', controlAdd);  //Вход в окно добавления
 closeAddButton.addEventListener('click', controlAdd); //Выход из окна добавления карточек
+closeImageButton.addEventListener('click', imageOpen);
 
 
 

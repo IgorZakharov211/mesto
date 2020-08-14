@@ -1,14 +1,6 @@
 @import url('../vendor/normalize.css');
 @import url('../vendor/fonts/fonts.css');
 @import url('../blocks/page/page.css');
-@import url('../blocks/popup/popup.css');
-@import url('../blocks/popup/_opened/popup_opened.css');
-@import url('../blocks/popup/__container/popup__container.css');
-@import url('../blocks/popup/__button-close/popup__button-close.css');
-@import url('../blocks/popup/__button-save/popup__button-save.css');
-@import url('../blocks/popup/__heading/popup__heading.css');
-@import url('../blocks/popup/__input/popup__input.css');
-@import url('../blocks/popup/__fieldset/popup__fieldset.css');
 @import url('../blocks/page/__header/page__header.css');
 @import url('../blocks/page/__footer/page__footer.css');
 @import url('../blocks/header/header.css');
@@ -30,8 +22,24 @@
 @import url('../blocks/element/__info/element__info.css');
 @import url('../blocks/element/__remove/element__remove.css');
 @import url('../blocks/element/__like/element__like.css');
+@import url('../blocks/element/__link/element__link.css');
 @import url('../blocks/element/__like/_active/element__like_active.css');
 @import url('../blocks/element/__title/element__title.css');
 @import url('../blocks/footer/footer.css');
 @import url('../blocks/footer/__copyright/footer__copyright.css');
+@import url('../blocks/popup/popup.css');
+@import url('../blocks/popup/_opened/popup_opened.css');
+@import url('../blocks/popup/__container/popup__container.css');
+@import url('../blocks/popup/__button-close/popup__button-close.css');
+@import url('../blocks/popup/__button-save/popup__button-save.css');
+@import url('../blocks/popup/__heading/popup__heading.css');
+@import url('../blocks/popup/__input/popup__input.css');
+@import url('../blocks/popup/__fieldset/popup__fieldset.css');
+@import url('../blocks/image/image.css');
+@import url('../blocks/image/_opened/image_opened.css');
+@import url('../blocks/image/__item/image__item.css');
+@import url('../blocks/image/__pic/image__pic.css');
+@import url('../blocks/image/__button-close/image__button-close.css');
+@import url('../blocks/image/__subtitle/image__subtitle.css');
+
 
