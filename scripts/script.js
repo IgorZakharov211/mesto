@@ -116,10 +116,14 @@ function loadCards(){
 }
 
 function imageOpen(link, subtitle){
-  popupImage.classList.toggle('image_opened');
   imagePic.src = link;
   imagePic.alt = subtitle;
   imageSubtitle.textContent = subtitle;
+  popupImage.classList.toggle('image_opened');    
+}
+
+function imageClose(){
+  popupImage.classList.toggle('image_opened'); 
 }
 
 
@@ -132,7 +136,7 @@ editButton.addEventListener('click', controlEdit);  //Вход в окно ре�
 closeEditButton.addEventListener('click', controlEdit);  //Выход из окна редактирования
 addButton.addEventListener('click', controlAdd);  //Вход в окно добавления
 closeAddButton.addEventListener('click', controlAdd); //Выход из окна добавления карточек
-closeImageButton.addEventListener('click', imageOpen);
+closeImageButton.addEventListener('click', imageClose);
 
 
 
