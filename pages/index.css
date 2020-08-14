@@ -28,6 +28,7 @@
 @import url('../blocks/element/element.css');
 @import url('../blocks/element/__image/element__image.css');
 @import url('../blocks/element/__info/element__info.css');
+@import url('../blocks/element/__remove/element__remove.css');
 @import url('../blocks/element/__like/element__like.css');
 @import url('../blocks/element/__like/_active/element__like_active.css');
 @import url('../blocks/element/__title/element__title.css');

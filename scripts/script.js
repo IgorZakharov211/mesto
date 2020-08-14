@@ -16,6 +16,7 @@ const elements = document.querySelector('.elements');
 const placeTemplate = document.querySelector('#element').content;
 let element;
 let likeButton;
+let removeButton;
 const initialCards = [
     {
       name: 'Архыз',
@@ -43,20 +44,6 @@ const initialCards = [
     }
 ];
 
-initialCards.forEach(function (item){
-  const cardsElement = placeTemplate.cloneNode(true);
-  cardsElement.querySelector('.element__image').src = item.link;
-  cardsElement.querySelector('.element__title').textContent = item.name;
-  elements.prepend(cardsElement);
-  element = document.querySelector('.element');
-  likeButton = document.querySelector('.element__like');
-  likeButton.addEventListener('click', function (evt){
-    const eventTarget = evt.target;
-    eventTarget.classList.toggle('element__like_active');
-  });
-});
-
-
 //Функции для открытия/закрытия окна редактирования, через класс popup_opened
 function controlEdit(){
   popup.classList.toggle('popup_opened');
@@ -80,32 +67,44 @@ function formSubmitHandler (evt) {
   controlEdit();  //Закрываю окно
 }
 
-function formAddHandler (evt) {
-  evt.preventDefault();
-  const placeElement = placeTemplate.cloneNode(true);
-  const titleValue = titleInput.value;
-  const urlValue = urlInput.value;
-  placeElement.querySelector('.element__image').src = urlValue;
-  placeElement.querySelector('.element__title').textContent = titleValue;
-  elements.prepend(placeElement);
-  element = document.querySelector('.element');
+
+function addCards(link, name){
+  const cardsElement = placeTemplate.cloneNode(true);
+  cardsElement.querySelector('.element__image').src = link;
+  cardsElement.querySelector('.element__title').textContent = name;
+  elements.prepend(cardsElement);
   likeButton = document.querySelector('.element__like');
-  likeButton.addEventListener('click', function(){
-    likeButton.classList.toggle('element__like_active');
+  removeButton = document.querySelector('.element__remove');
+  likeButton.addEventListener('click', function (evt){
+    const likeTarget = evt.target;
+    likeTarget.classList.toggle('element__like_active');
   });
-  controlAdd();  //Закрываю окно
+  removeButton.addEventListener('click', function (evt){
+    const removeTarget = evt.target;
+    removeTarget.parentElement.remove();
+  });
 }
 
-//Функции для добавления кнопки like
+
+function formAddHandler(evt){
+  evt.preventDefault();
+  const linkInput = urlInput.value;
+  const nameInput = titleInput.value; 
+  addCards(linkInput, nameInput);
+  controlAdd();
+}
+
+function loadCards(){
+  initialCards.forEach(function (item){
+    const linkItem = item.link;
+    const nameItem = item.name;
+    addCards(linkItem, nameItem);
+  });
+}
 
 
-  
 
-
-
-
-
-
+loadCards();
 formElement.addEventListener('submit', formSubmitHandler);
 addElement.addEventListener('submit', formAddHandler);
 editButton.addEventListener('click', controlEdit);  //Вход в окно редактирования 
