@@ -1,9 +1,9 @@
 .popup__button-close{
-  position: absolute;
+  position: relative;
   width: 40.7px;
   height: 40.7px;
-  left: calc(50% + 215px);
-  top: calc(50% - 165px - 40.7px);
+  top: 100%;
+  left: 100%;
   background-color: rgba(0, 0, 0, .0);
   background-image: url('../../../images/button-reset.svg');
   background-position: center;

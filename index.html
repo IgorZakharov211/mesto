@@ -35,34 +35,38 @@
     <div class="popup">
       <div class="popup__container">
         <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
-        <form class="popup__form" action="#" method="POST" name="popup">
-          <fieldset class="popup__fieldset">
-            <h2 class="popup__heading">Редактировать профиль</h2>
-            <input type="text" class="popup__input" placeholder="Жак-Ив Кусто" name="name" value="" required>
-            <input type="text" class="popup__input" placeholder="Исследователь океана" name="job" value="" required>
-            <button class="popup__button-save" type="submit">Сохранить</button>
-          </fieldset>
-        </form>
+        <div class="popup__form">
+          <form class="popup__form" action="#" method="POST" name="popup">
+            <fieldset class="popup__fieldset">
+              <h2 class="popup__heading">Редактировать профиль</h2>
+              <input type="text" class="popup__input" placeholder="Жак-Ив Кусто" name="name" value="" required>
+              <input type="text" class="popup__input" placeholder="Исследователь океана" name="job" value="" required>
+              <button class="popup__button-save" type="submit">Сохранить</button>
+            </fieldset>
+          </form>
+        </div>
       </div>
     </div>
     <div class="popup">
       <div class="popup__container">
         <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
-        <form class="popup__form" action="#" method="POST" name="popup-places">
-          <fieldset class="popup__fieldset">
-            <h2 class="popup__heading">Новое место</h2>
-            <input type="text" class="popup__input" placeholder="Название" name="title" value="" required>
-            <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="url" value="" required>
-            <button class="popup__button-save" type="submit">Создать</button>
-          </fieldset>
-        </form>
+        <div class="popup__form">
+          <form class="popup__form" action="#" method="POST" name="popup-places">
+            <fieldset class="popup__fieldset">
+              <h2 class="popup__heading">Новое место</h2>
+              <input type="text" class="popup__input" placeholder="Название" name="title" value="" required>
+              <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="url" value="" required>
+              <button class="popup__button-save" type="submit">Создать</button>
+            </fieldset>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="image">
-      <div class="image__item">
-        <button class="image__button-close"></button>
-        <img src="images/no-image.jpg" alt="Фотография места" class="image__pic">
-        <p class="image__subtitle"></p>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__button-close"></button>
+        <img src="images/no-image.jpg" alt="Фотография места" class="popup__pic">
+        <p class="popup__subtitle"></p>
       </div>  
     </div>
   </div>
