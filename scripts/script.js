@@ -82,7 +82,7 @@ function formAddHandler(evt){
   evt.preventDefault();
   const linkInput = urlInput.value;
   const nameInput = titleInput.value; 
-  renderCard(linkInput, nameInput);
+  addCard(linkInput, nameInput);
   closeModalWindow(modalWindowCard);
 }
 
@@ -98,28 +98,21 @@ function loadCards(){
   initialCards.forEach(function (item){
     const linkItem = item.link;
     const nameItem = item.name;
-    renderCard(linkItem, nameItem);
+    addCard(linkItem, nameItem);
   });
 }
 
-//Создаем каротчку
+//Создаем каротчку 
 function renderCard(link, name){
   const cardsElement = placeTemplate.cloneNode(true);
   const cardsImage = cardsElement.querySelector('.element__image');
   const cardsTitle = cardsElement.querySelector('.element__title');
+  const likeButton = cardsElement.querySelector('.element__like');
+  const removeButton = cardsElement.querySelector('.element__remove');
+  const linkImage = cardsElement.querySelector('.element__link');
   cardsImage.src = link;
   cardsImage.alt = name;
   cardsTitle.textContent = name;
-  elements.prepend(cardsElement);
-  addListener(link, name);
-}
-
-
-//Добавляем слушателей для каротчки
-function addListener(link, name){
-  const likeButton = document.querySelector('.element__like');
-  const removeButton = document.querySelector('.element__remove');
-  const linkImage = document.querySelector('.element__link');
   likeButton.addEventListener('click', function (evt){
     evt.target.classList.toggle('element__like_active');
   });
@@ -127,10 +120,15 @@ function addListener(link, name){
     evt.target.parentElement.remove();
   });
   linkImage.addEventListener('click', function (evt){
-    const imageTarget = evt.target;
     flashValue(link, name);
     openModalWindow(modalWindowImage);
-  })
+  });
+  return cardsElement;
+}
+
+// Добавляем карточку
+function addCard(link, name){
+  elements.prepend(renderCard(link, name));
 }
 
 
