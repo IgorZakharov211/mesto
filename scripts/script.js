@@ -5,19 +5,20 @@ const profileButton = document.querySelector('.profile__edit-button'); //Кно�
 const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
 const profileForm = modalWindowProfile.querySelector('.popup__form');  //Форма профиля
-const nameInput = profileForm.querySelector('.popup__input:first-of-type'); //Поле ввода имени
-const jobInput = profileForm.querySelector('.popup__input:last-of-type'); //Поле ввода должности
+const nameInput = profileForm.elements.name; //Поле ввода имени
+const jobInput = profileForm.elements.job; //Поле ввода должности
 const profileCloseButton = modalWindowProfile.querySelector('.popup__button-close'); //Кнопка выхода из окна редактирования
 const cardsButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
 const cardsCloseButton = modalWindowCard.querySelector('.popup__button-close'); //Кнопка выхода из окна добавления карточек
 const cardsForm = modalWindowCard.querySelector('.popup__form'); //Форма добавления карточек
-const titleInput = cardsForm.querySelector('.popup__input:first-of-type'); //Поле ввода названия
-const urlInput = cardsForm.querySelector('.popup__input:last-of-type'); //Поле ввода ссылки на картинку
+const titleInput = cardsForm.elements.title; //Поле ввода названия
+const urlInput = cardsForm.elements.url; //Поле ввода ссылки на картинку
 const elements = document.querySelector('.elements');  //Котнейнер с карточками
 const placeTemplate = document.querySelector('#element').content;
 const popupPic = modalWindowImage.querySelector('.popup__pic');
 const popupSubtitle = modalWindowImage.querySelector('.popup__subtitle');
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
+const addCardButton = cardsForm.querySelector('.popup__button-save');
 const initialCards = [
     {
       name: 'Архыз',
@@ -84,6 +85,9 @@ function formAddHandler(evt){
   const nameInput = titleInput.value; 
   addCard(linkInput, nameInput);
   closeModalWindow(modalWindowCard);
+  cardsForm.reset();
+  addCardButton.setAttribute('disabled', 'disabled');
+  addCardButton.classList.add('popup__button-save_inactive');
 }
 
 //Передаем значение карточки для открытия модального окна с изображением
@@ -140,7 +144,9 @@ cardsForm.addEventListener('submit', formAddHandler);
 profileButton.addEventListener('click', assignValue);  
 profileCloseButton.addEventListener('click', function () {closeModalWindow(modalWindowProfile)}); 
 cardsButton.addEventListener('click', function (){openModalWindow(modalWindowCard)});  
-cardsCloseButton.addEventListener('click', function () {closeModalWindow(modalWindowCard)}); 
+cardsCloseButton.addEventListener('click', function () {
+  closeModalWindow(modalWindowCard);
+}); 
 closeImageButton.addEventListener('click', function () {closeModalWindow(modalWindowImage)});
 
 

@@ -15,9 +15,9 @@
   -webkit-transition: background-color .3s ease-out;
   -o-transition: background-color .3s ease-out;
   transition: background-color .3s ease-out;
-  margin-bottom: 36.51px;
+  margin: 18.3px 0 36.51px 0;
 }
 
 .popup__button-save:hover{
-  background-color: rgba(0, 0, 0, .8)
+  background-color: rgba(0, 0, 0, .8);
 }
