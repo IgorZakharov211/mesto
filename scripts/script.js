@@ -58,10 +58,8 @@ function closeModalWindow(modalWindow){
   modalWindow.classList.remove('popup_opened');
 }
 
-
 //Присваиваем значения для инпутов
 function assignValue(){
-  openModalWindow(modalWindowProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
@@ -69,8 +67,6 @@ function assignValue(){
 //Обработка запроса на редактирования профиля
 function formSubmitHandler (evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                        // Так мы можем определить свою логику отправки.
-                        // О том, как это делать, расскажем позже.
   const nameValue = nameInput.value;
   const jobValue = jobInput.value;
   profileName.textContent = nameValue;  //Сверяю значения на странице с полем ввода для имени
@@ -86,8 +82,6 @@ function formAddHandler(evt){
   addCard(linkInput, nameInput);
   closeModalWindow(modalWindowCard);
   cardsForm.reset();
-  addCardButton.setAttribute('disabled', 'disabled');
-  addCardButton.classList.add('popup__button-save_inactive');
 }
 
 //Передаем значение карточки для открытия модального окна с изображением
@@ -139,15 +133,40 @@ function addCard(link, name){
 
 
 loadCards();
+assignValue();
 profileForm.addEventListener('submit', formSubmitHandler);
 cardsForm.addEventListener('submit', formAddHandler);
-profileButton.addEventListener('click', assignValue);  
-profileCloseButton.addEventListener('click', function () {closeModalWindow(modalWindowProfile)}); 
-cardsButton.addEventListener('click', function (){openModalWindow(modalWindowCard)});  
+profileButton.addEventListener('click', function (){
+  assignValue();
+  openModalWindow(modalWindowProfile);
+  enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error'
+});
+});  
+profileCloseButton.addEventListener('click', function () {
+  closeModalWindow(modalWindowProfile);
+}); 
+cardsButton.addEventListener('click', function (){
+  openModalWindow(modalWindowCard);
+  enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error'
+});
+});  
 cardsCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowCard);
+  cardsForm.reset();
 }); 
 closeImageButton.addEventListener('click', function () {closeModalWindow(modalWindowImage)});
+
+
 
 
 

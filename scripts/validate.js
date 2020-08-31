@@ -9,13 +9,19 @@ const enableValidation = (formObject) => {
  });
 };
 
-//Задаем слушатель, срабатывающий при изменения поля инпут
+//Задаем слушатель, срабатывающий при изменения поля инпут и работе c формой
 const setEventListeners = (formElement, formObject) => {
   const inputList = Array.from(formElement.querySelectorAll(formObject.inputSelector));
   const buttonElement = formElement.querySelector(formObject.submitButtonSelector);
   toggleButtonState(inputList, buttonElement, formObject);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement, formObject);
+      toggleButtonState(inputList, buttonElement, formObject);
+    });
+  });
+  inputList.forEach((inputElement) => {
+    formElement.addEventListener('mouseover', function () {
       checkInputValidity(formElement, inputElement, formObject);
       toggleButtonState(inputList, buttonElement, formObject);
     });
@@ -67,15 +73,7 @@ const hideInputError = (formElement, inputElement, formObject) => {
   errorElement.textContent = '';
 };
 
-
-
 //Передаем настройки для валидации
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__input_type_error'
-});
+
 
 
