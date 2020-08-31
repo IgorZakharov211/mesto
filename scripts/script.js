@@ -47,6 +47,22 @@ const initialCards = [
 ];
 
 
+function closeModalOnKey(modalWindow){
+  document.addEventListener('keydown', function(evt){
+    if(evt.key === "Escape"){
+        modalWindow.classList.remove('popup_opened');
+      }
+  });
+}
+
+function closeModalOnOverlay(modalWindow){
+  modalWindow.addEventListener('click', function(evt){
+    evt.target.classList.remove('popup_opened');
+  });
+}
+
+
+
 // Открытие модального окна //
 function openModalWindow(modalWindow){
   modalWindow.classList.add('popup_opened');
@@ -120,6 +136,8 @@ function renderCard(link, name){
   linkImage.addEventListener('click', function (evt){
     flashValue(link, name);
     openModalWindow(modalWindowImage);
+    closeModalOnKey(modalWindowImage);
+    closeModalOnOverlay(modalWindowImage);
   });
   return cardsElement;
 }
@@ -139,32 +157,38 @@ cardsForm.addEventListener('submit', formAddHandler);
 profileButton.addEventListener('click', function (){
   assignValue();
   openModalWindow(modalWindowProfile);
+  closeModalOnKey(modalWindowProfile);
+  closeModalOnOverlay(modalWindowProfile);
   enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__input_type_error'
-});
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button-save',
+    inactiveButtonClass: 'popup__button-save_inactive',
+    inputErrorClass: 'popup__input_type_error'
+  });
 });  
 profileCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowProfile);
 }); 
 cardsButton.addEventListener('click', function (){
   openModalWindow(modalWindowCard);
+  closeModalOnKey(modalWindowCard);
+  closeModalOnOverlay(modalWindowCard);
   enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__input_type_error'
-});
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button-save',
+    inactiveButtonClass: 'popup__button-save_inactive',
+    inputErrorClass: 'popup__input_type_error'
+  });
 });  
 cardsCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowCard);
   cardsForm.reset();
 }); 
-closeImageButton.addEventListener('click', function () {closeModalWindow(modalWindowImage)});
+closeImageButton.addEventListener('click', function () {
+  closeModalWindow(modalWindowImage);
+});
 
 
 

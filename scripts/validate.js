@@ -20,12 +20,6 @@ const setEventListeners = (formElement, formObject) => {
       toggleButtonState(inputList, buttonElement, formObject);
     });
   });
-  inputList.forEach((inputElement) => {
-    formElement.addEventListener('mouseover', function () {
-      checkInputValidity(formElement, inputElement, formObject);
-      toggleButtonState(inputList, buttonElement, formObject);
-    });
-  });
 };
 
 //Управление состоянием кнопки "Сохранить"
