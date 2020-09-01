@@ -50,14 +50,14 @@ const initialCards = [
 function closeModalOnKey(modalWindow){
   document.addEventListener('keydown', function(evt){
     if(evt.key === "Escape"){
-        modalWindow.classList.remove('popup_opened');
+        closeModalWindow(modalWindow);
       }
   });
 }
 
 function closeModalOnOverlay(modalWindow){
   modalWindow.addEventListener('click', function(evt){
-    evt.target.classList.remove('popup_opened');
+    closeModalWindow(evt.target);
   });
 }
 

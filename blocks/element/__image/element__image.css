@@ -1,6 +1,6 @@
 .element__image{
   width: 282px;
   height: 282px;
-  min-height: 282px;
+  -o-object-fit: cover;
   object-fit: cover;
 }

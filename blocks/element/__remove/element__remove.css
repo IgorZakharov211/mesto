@@ -8,6 +8,8 @@
   top: -264px;
   left: 246px;
   cursor: pointer;
+  -webkit-transition: opacity .3s ease-in;
+  -o-transition: opacity .3s ease-in;
   transition: opacity .3s ease-in;
   z-index: 2;
 }
