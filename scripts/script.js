@@ -57,7 +57,9 @@ function closeModalOnKey(modalWindow){
 
 function closeModalOnOverlay(modalWindow){
   modalWindow.addEventListener('click', function(evt){
-    closeModalWindow(evt.target);
+    if(modalWindow.classList.contains('popup_opened')){
+      closeModalWindow(evt.target);
+    } 
   });
 }
 
