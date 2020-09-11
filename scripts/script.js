@@ -2,7 +2,7 @@ import Card from '../scripts/Card.js';
 
 const modalWindowProfile = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
 const modalWindowCard = document.querySelector('.popup:nth-of-type(2n)'); //Окно с popup редактирования места
-const modalWindowImage = document.querySelector('.popup:nth-of-type(3n)'); //Окно с popup изображением
+export const modalWindowImage = document.querySelector('.popup:nth-of-type(3n)'); //Окно с popup изображением
 const profileButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
 const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
@@ -16,11 +16,9 @@ const cardsForm = modalWindowCard.querySelector('.popup__form'); //Форма д
 const titleInput = cardsForm.elements.title; //Поле ввода названия
 const urlInput = cardsForm.elements.url; //Поле ввода ссылки на картинку
 const elements = document.querySelector('.elements');  //Котнейнер с карточками
-const placeTemplate = document.querySelector('#element').content;
-const popupPic = modalWindowImage.querySelector('.popup__pic');
-const popupSubtitle = modalWindowImage.querySelector('.popup__subtitle');
+export const popupPic = modalWindowImage.querySelector('.popup__pic');
+export const popupSubtitle = modalWindowImage.querySelector('.popup__subtitle');
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
-const addCardButton = cardsForm.querySelector('.popup__button-save');
 const initialCards = [
     {
       name: 'Архыз',
@@ -49,7 +47,7 @@ const initialCards = [
 ];
 
 
-function closeModalOnKey(modalWindow){
+export function closeModalOnKey(modalWindow){
   document.addEventListener('keydown', function(evt){
     if(evt.key === "Escape"){
         closeModalWindow(modalWindow);
@@ -57,7 +55,7 @@ function closeModalOnKey(modalWindow){
   });
 }
 
-function closeModalOnOverlay(modalWindow){
+export function closeModalOnOverlay(modalWindow){
   modalWindow.addEventListener('click', function(evt){
     if(modalWindow.classList.contains('popup_opened')){
       closeModalWindow(evt.target);
@@ -67,7 +65,7 @@ function closeModalOnOverlay(modalWindow){
 
 
 // Открытие модального окна //
-function openModalWindow(modalWindow){
+export function openModalWindow(modalWindow){
   modalWindow.classList.add('popup_opened');
 }
 
@@ -119,41 +117,12 @@ function loadCards(){
   });
 }
 
-/*
-function renderCard(link, name){
-  const cardsElement = placeTemplate.cloneNode(true);
-  const cardsImage = cardsElement.querySelector('.element__image');
-  const cardsTitle = cardsElement.querySelector('.element__title');
-  const likeButton = cardsElement.querySelector('.element__like');
-  const removeButton = cardsElement.querySelector('.element__remove');
-  const linkImage = cardsElement.querySelector('.element__link');
-  cardsImage.src = link;
-  cardsImage.alt = name;
-  cardsTitle.textContent = name;
-  likeButton.addEventListener('click', function (evt){
-    evt.target.classList.toggle('element__like_active');
-  });
-  removeButton.addEventListener('click', function (evt){
-    evt.target.parentElement.remove();
-  });
-  linkImage.addEventListener('click', function (evt){
-    flashValue(link, name);
-    openModalWindow(modalWindowImage);
-    closeModalOnKey(modalWindowImage);
-    closeModalOnOverlay(modalWindowImage);
-  });
-  return cardsElement;
-}
-*/
 // Добавляем карточку
 function addCard(link, name){
   const card = new Card(link, name, '#element');
   const cardElement = card.generateCard();
   elements.prepend(cardElement);
 }
-
-
-
 
 loadCards();
 assignValue();

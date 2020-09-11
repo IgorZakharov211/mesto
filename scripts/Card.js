@@ -1,3 +1,4 @@
+import {closeModalOnKey, closeModalOnOverlay, openModalWindow, modalWindowImage, popupPic, popupSubtitle} from '../scripts/script.js';
 export default class Card {
   constructor(link, name, cardSelector){
     this._cardSelector = cardSelector;
@@ -21,7 +22,9 @@ export default class Card {
     });
     this._element.querySelector('.element__link')
     .addEventListener('click', function (evt){
-      flashValue(link, name);
+      popupPic.src = evt.target.src;
+      popupPic.alt = evt.target.alt;
+      popupSubtitle.textContent = evt.target.alt;
       openModalWindow(modalWindowImage);
       closeModalOnKey(modalWindowImage);
       closeModalOnOverlay(modalWindowImage);
