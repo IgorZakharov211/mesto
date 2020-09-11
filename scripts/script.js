@@ -1,3 +1,5 @@
+import Card from '../scripts/Card.js';
+
 const modalWindowProfile = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
 const modalWindowCard = document.querySelector('.popup:nth-of-type(2n)'); //Окно с popup редактирования места
 const modalWindowImage = document.querySelector('.popup:nth-of-type(3n)'); //Окно с popup изображением
@@ -64,7 +66,6 @@ function closeModalOnOverlay(modalWindow){
 }
 
 
-
 // Открытие модального окна //
 function openModalWindow(modalWindow){
   modalWindow.classList.add('popup_opened');
@@ -118,7 +119,7 @@ function loadCards(){
   });
 }
 
-//Создаем каротчку 
+/*
 function renderCard(link, name){
   const cardsElement = placeTemplate.cloneNode(true);
   const cardsImage = cardsElement.querySelector('.element__image');
@@ -143,10 +144,12 @@ function renderCard(link, name){
   });
   return cardsElement;
 }
-
+*/
 // Добавляем карточку
 function addCard(link, name){
-  elements.prepend(renderCard(link, name));
+  const card = new Card(link, name, '#element');
+  const cardElement = card.generateCard();
+  elements.prepend(cardElement);
 }
 
 
