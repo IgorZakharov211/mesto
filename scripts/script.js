@@ -1,8 +1,9 @@
 import Card from '../scripts/Card.js';
+import FormValidator from '../scripts/FormValidator.js';
 
 const modalWindowProfile = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
 const modalWindowCard = document.querySelector('.popup:nth-of-type(2n)'); //Окно с popup редактирования места
-export const modalWindowImage = document.querySelector('.popup:nth-of-type(3n)'); //Окно с popup изображением
+const modalWindowImage = document.querySelector('.popup:nth-of-type(3n)'); //Окно с popup изображением
 const profileButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
 const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
@@ -16,8 +17,6 @@ const cardsForm = modalWindowCard.querySelector('.popup__form'); //Форма д
 const titleInput = cardsForm.elements.title; //Поле ввода названия
 const urlInput = cardsForm.elements.url; //Поле ввода ссылки на картинку
 const elements = document.querySelector('.elements');  //Котнейнер с карточками
-export const popupPic = modalWindowImage.querySelector('.popup__pic');
-export const popupSubtitle = modalWindowImage.querySelector('.popup__subtitle');
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
 const initialCards = [
     {
@@ -47,7 +46,7 @@ const initialCards = [
 ];
 
 
-export function closeModalOnKey(modalWindow){
+function closeModalOnKey(modalWindow){
   document.addEventListener('keydown', function(evt){
     if(evt.key === "Escape"){
         closeModalWindow(modalWindow);
@@ -55,7 +54,7 @@ export function closeModalOnKey(modalWindow){
   });
 }
 
-export function closeModalOnOverlay(modalWindow){
+function closeModalOnOverlay(modalWindow){
   modalWindow.addEventListener('click', function(evt){
     if(modalWindow.classList.contains('popup_opened')){
       closeModalWindow(evt.target);
@@ -65,7 +64,7 @@ export function closeModalOnOverlay(modalWindow){
 
 
 // Открытие модального окна //
-export function openModalWindow(modalWindow){
+function openModalWindow(modalWindow){
   modalWindow.classList.add('popup_opened');
 }
 
@@ -101,13 +100,6 @@ function formAddHandler(evt){
   cardsForm.reset();
 }
 
-//Передаем значение карточки для открытия модального окна с изображением
-function flashValue(link, subtitle){
-  popupPic.src = link;
-  popupPic.alt = subtitle;
-  popupSubtitle.textContent = subtitle;   
-}
-
 //Загружаем начальные карточки с фотографиями
 function loadCards(){
   initialCards.forEach(function (item){
@@ -124,37 +116,45 @@ function addCard(link, name){
   elements.prepend(cardElement);
 }
 
+function addValidation(formObject){
+  const formList = Array.from(document.querySelectorAll(formObject.formSelector));  
+  formList.forEach((formElement) => {
+      const validation = new FormValidator(formObject, formElement);
+      validation.enableValidation();
+  });
+}
+
 loadCards();
 assignValue();
 profileForm.addEventListener('submit', formSubmitHandler);
 cardsForm.addEventListener('submit', formAddHandler);
-profileButton.addEventListener('click', function (){
+profileButton.addEventListener('click', () => {
   assignValue();
-  openModalWindow(modalWindowProfile);
-  closeModalOnKey(modalWindowProfile);
-  closeModalOnOverlay(modalWindowProfile);
-  enableValidation({
+  addValidation({
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button-save',
     inactiveButtonClass: 'popup__button-save_inactive',
     inputErrorClass: 'popup__input_type_error'
   });
+  openModalWindow(modalWindowProfile);
+  closeModalOnKey(modalWindowProfile);
+  closeModalOnOverlay(modalWindowProfile);
 });  
 profileCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowProfile);
 }); 
 cardsButton.addEventListener('click', function (){
-  openModalWindow(modalWindowCard);
-  closeModalOnKey(modalWindowCard);
-  closeModalOnOverlay(modalWindowCard);
-  enableValidation({
+  addValidation({
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button-save',
     inactiveButtonClass: 'popup__button-save_inactive',
     inputErrorClass: 'popup__input_type_error'
   });
+  openModalWindow(modalWindowCard);
+  closeModalOnKey(modalWindowCard);
+  closeModalOnOverlay(modalWindowCard);
 });  
 cardsCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowCard);
