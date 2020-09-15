@@ -1,5 +1,5 @@
 export default class Card {
-  static _modalWindowImage = document.querySelector('.popup:nth-of-type(3n)');
+  static _modalWindowImage = document.querySelector('#popup-card');
   static _popupPic = Card._modalWindowImage.querySelector('.popup__pic');
   static _popupSubtitle = Card._modalWindowImage.querySelector('.popup__subtitle');
 
@@ -15,6 +15,7 @@ export default class Card {
   }
 
   _setEventListeners(){
+    this._closeModalOnOverlay(Card._modalWindowImage);
     this._element.querySelector('.element__like')
     .addEventListener('click', (evt) => {
         evt.target.classList.toggle('element__like_active');
@@ -29,8 +30,6 @@ export default class Card {
       Card._popupPic.alt = evt.target.alt;
       Card._popupSubtitle.textContent = evt.target.alt;
       this._openModalWindow(Card._modalWindowImage);
-      this._closeModalOnKey(Card._modalWindowImage);
-      this._closeModalOnOverlay(Card._modalWindowImage);
     });
   }
   
@@ -46,21 +45,21 @@ export default class Card {
     return this._element;
   }
 
-  _closeModalOnKey = (modalWindow) => {
-    modalWindow.addEventListener('click', (evt) => {
-      if(modalWindow.classList.contains('popup_opened')){
-        this._closeModalWindow(evt.target);
-      } 
-    });
+  _closeModalOnKey  = (evt) =>{
+    if(evt.key === "Escape"){
+      this._closeModalWindow(Card._modalWindowImage);
+    }
   }
 
   _openModalWindow = (modalWindow) => {
     modalWindow.classList.add('popup_opened');
+    document.addEventListener('keydown', this._closeModalOnKey);
   }
   
   
   _closeModalWindow = (modalWindow) => {
     modalWindow.classList.remove('popup_opened');
+    document.removeEventListener('keydown', this._closeModalOnKey);
   }
 
   _closeModalOnOverlay = (modalWindow) => {

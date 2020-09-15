@@ -14,6 +14,7 @@ const profileCloseButton = modalWindowProfile.querySelector('.popup__button-clos
 const cardsButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
 const cardsCloseButton = modalWindowCard.querySelector('.popup__button-close'); //Кнопка выхода из окна добавления карточек
 const cardsForm = modalWindowCard.querySelector('.popup__form'); //Форма добавления карточек
+const submitCardButton = cardsForm.querySelector('.popup__button-save');
 const titleInput = cardsForm.elements.title; //Поле ввода названия
 const urlInput = cardsForm.elements.url; //Поле ввода ссылки на картинку
 const elements = document.querySelector('.elements');  //Котнейнер с карточками
@@ -94,10 +95,12 @@ function formSubmitHandler (evt) {
 function formAddHandler(evt){
   evt.preventDefault();
   const linkInput = urlInput.value;
-  const nameInput = titleInput.value; 
+  const nameInput = titleInput.value;
   addCard(linkInput, nameInput);
   closeModalWindow(modalWindowCard);
   cardsForm.reset();
+  submitCardButton.classList.add('popup__button-save_inactive');
+  submitCardButton.setAttribute('disabled', 'disabled'); 
 }
 
 //Загружаем начальные карточки с фотографиями
@@ -116,27 +119,26 @@ function addCard(link, name){
   elements.prepend(cardElement);
 }
 
-function addValidation(formObject){
-  const formList = Array.from(document.querySelectorAll(formObject.formSelector));  
+function addValidation(formConfig){
+  const formList = Array.from(document.querySelectorAll(formConfig.formSelector));  
   formList.forEach((formElement) => {
-      const validation = new FormValidator(formObject, formElement);
+      const validation = new FormValidator(formConfig, formElement);
       validation.enableValidation();
   });
 }
 
 loadCards();
 assignValue();
+addValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error'
+});
 profileForm.addEventListener('submit', formSubmitHandler);
 cardsForm.addEventListener('submit', formAddHandler);
 profileButton.addEventListener('click', () => {
-  assignValue();
-  addValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button-save',
-    inactiveButtonClass: 'popup__button-save_inactive',
-    inputErrorClass: 'popup__input_type_error'
-  });
   openModalWindow(modalWindowProfile);
   closeModalOnKey(modalWindowProfile);
   closeModalOnOverlay(modalWindowProfile);
@@ -145,13 +147,6 @@ profileCloseButton.addEventListener('click', function () {
   closeModalWindow(modalWindowProfile);
 }); 
 cardsButton.addEventListener('click', function (){
-  addValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button-save',
-    inactiveButtonClass: 'popup__button-save_inactive',
-    inputErrorClass: 'popup__input_type_error'
-  });
   openModalWindow(modalWindowCard);
   closeModalOnKey(modalWindowCard);
   closeModalOnOverlay(modalWindowCard);
