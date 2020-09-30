@@ -4,4 +4,8 @@ export default class PopupWithForm extends Popup{
     super(popupSelector);
 
   }
+
+  _getInputValues(){
+    
+  }
 }

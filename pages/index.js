@@ -1,6 +1,7 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import Section from '../components/Section.js';
 
 const popups = document.querySelectorAll('.popup');
 const modalWindowProfile = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
@@ -48,7 +49,7 @@ const initialCards = [
     }
 ];
 
-
+/*
 function closeModalOnKey(evt){
   if(evt.key === "Escape"){
     closeModalWindow(document.querySelector('.popup_opened'));
@@ -79,7 +80,7 @@ function closeModalWindow(modalWindow){
   modalWindow.classList.remove('popup_opened');
   document.removeEventListener('keydown', closeModalOnKey);
 }
-
+*/
 //Присваиваем значения для инпутов
 function assignValue(){
   nameInput.value = profileName.textContent;
@@ -123,6 +124,8 @@ function addCard(link, name){
   const cardElement = card.generateCard();
   elements.prepend(cardElement);
 }
+
+
 
 function addValidation(formConfig){
   const formList = Array.from(document.querySelectorAll(formConfig.formSelector));  

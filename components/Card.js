@@ -3,10 +3,11 @@ export default class Card {
   static _popupPic = Card._modalWindowImage.querySelector('.popup__pic');
   static _popupSubtitle = Card._modalWindowImage.querySelector('.popup__subtitle');
 
-  constructor(link, name, cardSelector){
+  constructor(link, name, cardSelector, handleCardClick){
     this._cardSelector = cardSelector;
     this._link = link;
     this._name = name;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate(){
