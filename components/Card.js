@@ -16,7 +16,6 @@ export default class Card {
   }
 
   _setEventListeners(){
-    this._closeModalOnOverlay(Card._modalWindowImage);
     this._element.querySelector('.element__like')
     .addEventListener('click', (evt) => {
         evt.target.classList.toggle('element__like_active');
@@ -28,7 +27,9 @@ export default class Card {
     this._element.querySelector('.element__link')
     .addEventListener('click', (evt) => {
       this._handleCardClick();
+      document.addEventListener('keydown', this._closeModalOnKey);
     });
+    
   }
   
   generateCard(){
@@ -41,31 +42,6 @@ export default class Card {
     cardTitle.textContent = this._name;
 
     return this._element;
-  }
-
-  _closeModalOnKey  = (evt) =>{
-    if(evt.key === "Escape"){
-      this._closeModalWindow(Card._modalWindowImage);
-    }
-  }
- /*
-  _openModalWindow = (modalWindow) => {
-    modalWindow.classList.add('popup_opened');
-    document.addEventListener('keydown', this._closeModalOnKey);
-  }
-  */
-  
-  _closeModalWindow = (modalWindow) => {
-    modalWindow.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._closeModalOnKey);
-  }
-
-  _closeModalOnOverlay = (modalWindow) => {
-    modalWindow.addEventListener('click', (evt) => {
-      if(modalWindow.classList.contains('popup_opened')){
-        this._closeModalWindow(evt.target);
-      } 
-    });
   }
 }
 

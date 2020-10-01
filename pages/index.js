@@ -1,6 +1,8 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
 import Section from '../components/Section.js';
 import {initialCards} from '../utils/constants.js';
 
@@ -24,39 +26,6 @@ const urlInput = cardsForm.elements.url; //Поле ввода ссылки на
 const elements = '.elements';  //Котнейнер с карточками
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
 
-
-/*
-function closeModalOnKey(evt){
-  if(evt.key === "Escape"){
-    closeModalWindow(document.querySelector('.popup_opened'));
-  }
-};
-
-
-function closeModalOnOverlay(){
-  popups.forEach(function (item){
-    item.addEventListener('click', function(evt){
-      if(evt.currentTarget.classList.contains('popup_opened')){
-        closeModalWindow(evt.target);
-      } 
-    });
-  });
-}
-
-
-// Открытие модального окна //
-function openModalWindow(modalWindow){
-  modalWindow.classList.add('popup_opened');
-  document.addEventListener('keydown', closeModalOnKey);
-}
-
-
-// Закрытие модального окна //
-function closeModalWindow(modalWindow){
-  modalWindow.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeModalOnKey);
-}
-*/
 //Присваиваем значения для инпутов
 function assignValue(){
   nameInput.value = profileName.textContent;
@@ -109,6 +78,7 @@ const cardsList = new Section({
     const card = new Card(item.name, item.link, '#element', {handleCardClick: () => {
       const popup = new PopupWithImage(modalWindowImage, {src: item.link, alt: item.name});
       popup.open();
+      popup.setEventListeners();
     }
     });
     const cardElement = card.generateCard();
@@ -131,9 +101,7 @@ function addValidation(formConfig){
   });
 }
 
-//loadCards();
 assignValue();
-//closeModalOnOverlay();
 addValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -141,24 +109,21 @@ addValidation({
   inactiveButtonClass: 'popup__button-save_inactive',
   inputErrorClass: 'popup__input_type_error'
 });
+
+const profileEdit = new PopupWithForm(modalWindowProfile);
+profileEdit.setEventListeners();
+const cardsEdit = new PopupWithForm(modalWindowCard);
+cardsEdit.setEventListeners();
+
+
 profileForm.addEventListener('submit', formSubmitHandler);
 cardsForm.addEventListener('submit', formAddHandler);
 profileButton.addEventListener('click', () => {
-  openModalWindow(modalWindowProfile);
+  profileEdit.open();
 });  
-profileCloseButton.addEventListener('click', function () {
-  closeModalWindow(modalWindowProfile);
-}); 
 cardsButton.addEventListener('click', function (){
-  openModalWindow(modalWindowCard);
+  cardsEdit.open();
 });  
-cardsCloseButton.addEventListener('click', function () {
-  closeModalWindow(modalWindowCard);
-  cardsForm.reset();
-}); 
-closeImageButton.addEventListener('click', function () {
-  closeModalWindow(modalWindowImage);
-});
 
 
 

@@ -14,5 +14,6 @@ export default class PopupWithImage extends Popup{
     this._popupPic.src = this._src;
     this._popupPic.alt = this._alt;
     this._popupSubtitle.textContent = this._alt;
+    document.addEventListener('keydown', this._handleEscClose);
   };
 }
