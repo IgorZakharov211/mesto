@@ -106,7 +106,11 @@ function addCard(link, name){
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item.name, item.link, '#element');
+    const card = new Card(item.name, item.link, '#element', {handleCardClick: () => {
+      const popup = new PopupWithImage(modalWindowImage, {src: item.link, alt: item.name});
+      popup.open();
+    }
+    });
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement);
     },

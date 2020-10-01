@@ -3,7 +3,7 @@ export default class Card {
   static _popupPic = Card._modalWindowImage.querySelector('.popup__pic');
   static _popupSubtitle = Card._modalWindowImage.querySelector('.popup__subtitle');
 
-  constructor(name, link, cardSelector, handleCardClick){
+  constructor(name, link, cardSelector, {handleCardClick}){
     this._cardSelector = cardSelector;
     this._link = link;
     this._name = name;
@@ -27,10 +27,7 @@ export default class Card {
     });
     this._element.querySelector('.element__link')
     .addEventListener('click', (evt) => {
-      Card._popupPic.src = evt.target.src;
-      Card._popupPic.alt = evt.target.alt;
-      Card._popupSubtitle.textContent = evt.target.alt;
-      this._openModalWindow(Card._modalWindowImage);
+      this._handleCardClick();
     });
   }
   
@@ -51,12 +48,12 @@ export default class Card {
       this._closeModalWindow(Card._modalWindowImage);
     }
   }
-
+ /*
   _openModalWindow = (modalWindow) => {
     modalWindow.classList.add('popup_opened');
     document.addEventListener('keydown', this._closeModalOnKey);
   }
-  
+  */
   
   _closeModalWindow = (modalWindow) => {
     modalWindow.classList.remove('popup_opened');
