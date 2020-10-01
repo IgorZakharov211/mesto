@@ -21,7 +21,7 @@ const cardsForm = modalWindowCard.querySelector('.popup__form'); //Форма д
 const submitCardButton = cardsForm.querySelector('.popup__button-save');
 const titleInput = cardsForm.elements.title; //Поле ввода названия
 const urlInput = cardsForm.elements.url; //Поле ввода ссылки на картинку
-const elements = document.querySelector('.elements');  //Котнейнер с карточками
+const elements = '.elements';  //Котнейнер с карточками
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
 
 
@@ -84,7 +84,7 @@ function formAddHandler(evt){
   submitCardButton.classList.add('popup__button-save_inactive');
   submitCardButton.setAttribute('disabled', 'disabled'); 
 }
-
+/*
 //Загружаем начальные карточки с фотографиями
 function loadCards(){
   initialCards.forEach(function (item){
@@ -93,13 +93,29 @@ function loadCards(){
     addCard(linkItem, nameItem);
   });
 }
-
-// Добавляем карточку
+*/
+// Добавляем карточку 
+/*
 function addCard(link, name){
   const card = new Card(link, name, '#element');
   const cardElement = card.generateCard();
   elements.prepend(cardElement);
 }
+
+*/
+const cardsList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item.name, item.link, '#element');
+    const cardElement = card.generateCard();
+    cardsList.addItem(cardElement);
+    },
+  },
+  elements
+);
+cardsList.renderItems();
+
+
 
 
 
@@ -111,9 +127,9 @@ function addValidation(formConfig){
   });
 }
 
-loadCards();
+//loadCards();
 assignValue();
-closeModalOnOverlay();
+//closeModalOnOverlay();
 addValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
