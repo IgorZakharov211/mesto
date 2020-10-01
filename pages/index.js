@@ -42,36 +42,6 @@ function formSubmitHandler (evt) {
   closeModalWindow(modalWindowProfile);
 }
 
-//Обработка запроса на добавление карточки
-function formAddHandler(evt){
-  evt.preventDefault();
-  const linkInput = urlInput.value;
-  const nameInput = titleInput.value;
-  addCard(linkInput, nameInput);
-  closeModalWindow(modalWindowCard);
-  cardsForm.reset();
-  submitCardButton.classList.add('popup__button-save_inactive');
-  submitCardButton.setAttribute('disabled', 'disabled'); 
-}
-/*
-//Загружаем начальные карточки с фотографиями
-function loadCards(){
-  initialCards.forEach(function (item){
-    const linkItem = item.link;
-    const nameItem = item.name;
-    addCard(linkItem, nameItem);
-  });
-}
-*/
-// Добавляем карточку 
-/*
-function addCard(link, name){
-  const card = new Card(link, name, '#element');
-  const cardElement = card.generateCard();
-  elements.prepend(cardElement);
-}
-
-*/
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
@@ -87,10 +57,21 @@ const cardsList = new Section({
   },
   elements
 );
+
+const cardsEdit = new PopupWithForm(modalWindowCard, {
+  formSubmitHandler: (item) => {
+    const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
+      const popup = new PopupWithImage(modalWindowImage, {src: item.link, alt: item.name});
+      popup.open();
+      popup.setEventListeners();
+    }
+    });
+    const cardElement = card.generateCard();
+    cardsList.addItem(cardElement);
+  }
+});
+
 cardsList.renderItems();
-
-
-
 
 
 function addValidation(formConfig){
@@ -110,14 +91,14 @@ addValidation({
   inputErrorClass: 'popup__input_type_error'
 });
 
-const profileEdit = new PopupWithForm(modalWindowProfile);
+const profileEdit = new PopupWithForm(modalWindowProfile, {
+  formSubmitHandler: (item) => {
+    
+  }
+});
 profileEdit.setEventListeners();
-const cardsEdit = new PopupWithForm(modalWindowCard);
 cardsEdit.setEventListeners();
-
-
 profileForm.addEventListener('submit', formSubmitHandler);
-cardsForm.addEventListener('submit', formAddHandler);
 profileButton.addEventListener('click', () => {
   profileEdit.open();
 });  
