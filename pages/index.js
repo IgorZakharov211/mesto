@@ -5,6 +5,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import Section from '../components/Section.js';
 import {initialCards} from '../utils/constants.js';
+import UserInfo from '../components/UserInfo.js';
 
 const popups = document.querySelectorAll('.popup');
 const modalWindowProfile = document.querySelector('.popup:nth-of-type(1n)'); //Окно с popup редактирования профиля
@@ -26,22 +27,6 @@ const urlInput = cardsForm.elements.url; //Поле ввода ссылки на
 const elements = '.elements';  //Котнейнер с карточками
 const closeImageButton = modalWindowImage.querySelector('.popup__button-close');
 
-//Присваиваем значения для инпутов
-function assignValue(){
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-}
-
-//Обработка запроса на редактирования профиля
-function formSubmitHandler (evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  const nameValue = nameInput.value;
-  const jobValue = jobInput.value;
-  profileName.textContent = nameValue;  //Сверяю значения на странице с полем ввода для имени
-  profileJob.textContent = jobValue; //Сверяю значения на странице с полем ввода для должности
-  closeModalWindow(modalWindowProfile);
-}
-
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
@@ -61,7 +46,7 @@ const cardsList = new Section({
 const cardsEdit = new PopupWithForm(modalWindowCard, {
   formSubmitHandler: (item) => {
     const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
-      const popup = new PopupWithImage(modalWindowImage, {src: item.link, alt: item.name});
+      const popup = new PopupWithImage(modalWindowImage, {src: item.url, alt: item.title});
       popup.open();
       popup.setEventListeners();
     }
@@ -70,8 +55,19 @@ const cardsEdit = new PopupWithForm(modalWindowCard, {
     cardsList.addItem(cardElement);
   }
 });
-
+cardsEdit.setEventListeners();
 cardsList.renderItems();
+
+
+const profileEdit = new PopupWithForm(modalWindowProfile, {
+  formSubmitHandler: (item) => {
+    user.setUserInfo({nameInput: item.name, jobInput: item.job});
+  }
+});
+const user = new UserInfo({profileName: profileName, profileJob: profileJob});
+profileEdit.setEventListeners();
+
+
 
 
 function addValidation(formConfig){
@@ -82,7 +78,6 @@ function addValidation(formConfig){
   });
 }
 
-assignValue();
 addValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -91,17 +86,16 @@ addValidation({
   inputErrorClass: 'popup__input_type_error'
 });
 
-const profileEdit = new PopupWithForm(modalWindowProfile, {
-  formSubmitHandler: (item) => {
-    
-  }
-});
-profileEdit.setEventListeners();
-cardsEdit.setEventListeners();
-profileForm.addEventListener('submit', formSubmitHandler);
-profileButton.addEventListener('click', () => {
+
+
+
+profileButton.addEventListener('click', function(){
   profileEdit.open();
-});  
+  const values = user.getUserInfo();
+  nameInput.value = values.name;
+  jobInput.value = values.job;
+})
+
 cardsButton.addEventListener('click', function (){
   cardsEdit.open();
 });  
