@@ -5,20 +5,23 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import {
-  initialCards, 
-  modalWindowProfile, 
-  modalWindowCard,
-  modalWindowImage,
-  profileButton,
-  profileName,
-  profileJob,
-  nameInput,
-  jobInput,
-  cardsButton,
-  elements,
-  cardSubmitButton
-} from '../utils/constants.js';
+import {initialCards} from '../utils/constants.js';
+
+const modalWindowProfile = document.querySelector('#popup-profile'); //Окно с popup редактирования профиля
+const modalWindowCard = document.querySelector('#popup-place'); //Окно с popup редактирования места
+const modalWindowImage = document.querySelector('#popup-card'); //Окно с popup изображением
+const profileButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
+const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
+const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
+const formProfile = document.forms.profile; //форма редактирования профиля
+const nameInput = formProfile.elements.name; //Поле ввода имени
+const jobInput = formProfile.elements.job; //Поле ввода должности
+const cardsButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
+const elements = '.elements';  //Котнейнер с карточками
+const formCard = document.forms.place; //форма добавления карточки
+const cardSubmitButton = formCard.querySelector('.popup__button-save');
+
+
 
 const popup = new PopupWithImage(modalWindowImage);
 popup.setEventListeners();
