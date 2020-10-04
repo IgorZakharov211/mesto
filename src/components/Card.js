@@ -1,7 +1,4 @@
 export default class Card {
-  static _modalWindowImage = document.querySelector('#popup-card');
-  static _popupPic = Card._modalWindowImage.querySelector('.popup__pic');
-  static _popupSubtitle = Card._modalWindowImage.querySelector('.popup__subtitle');
 
   constructor(name, link, cardSelector, {handleCardClick}){
     this._cardSelector = cardSelector;

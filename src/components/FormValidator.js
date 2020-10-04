@@ -45,7 +45,6 @@ export default class FormValidator{
     errorElement.classList.add(this._inactiveButtonClass);
   };
   
-  //Скрыть сообщение об ошибки
   _hideInputError(inputElement){
     const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
