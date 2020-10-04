@@ -52,10 +52,14 @@ export default class FormValidator{
     errorElement.textContent = '';
   };
 
+  disableButton(buttonElement){
+    buttonElement.classList.add(this._inactiveButtonClass);
+    buttonElement.setAttribute('disabled', 'disabled');
+  }
+
   _toggleButtonState(inputList, buttonElement){
     if(this._hasInvalidInput(inputList, buttonElement)){
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute('disabled', 'disabled');
+      this.disableButton(buttonElement);
     } else{
       buttonElement.classList.remove(this._inactiveButtonClass);
       buttonElement.removeAttribute('disabled');

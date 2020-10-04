@@ -20,16 +20,23 @@ const cardsButton = document.querySelector('.profile__add-button'); //Кнопк
 const elements = '.elements';  //Котнейнер с карточками
 const formCard = document.forms.place; //форма добавления карточки
 const cardSubmitButton = formCard.querySelector('.popup__button-save');
+const formDate = 
+{
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error'
+};
 
 
-
-const popup = new PopupWithImage(modalWindowImage);
-popup.setEventListeners();
+const popupCard = new PopupWithImage(modalWindowImage);
+popupCard.setEventListeners();
 
 // Создание карточки 
 const createCard = (item) =>{
   const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
-    popup.open({src: item.url, alt: item.title});
+    popupCard.open({src: item.url, alt: item.title});
   }
   });
   const cardElement = card.generateCard();
@@ -68,19 +75,13 @@ profileEdit.setEventListeners();
 function addValidation(formConfig){
   const formList = Array.from(document.querySelectorAll(formConfig.formSelector));  
   formList.forEach((formElement) => {
-      const validation = new FormValidator(formConfig, formElement);
-      validation.enableValidation();
+      console.log(formElement);
+      const formsValidation = new FormValidator(formConfig, formElement);
+      formsValidation.enableValidation();
   });
 }
 
-addValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_inactive',
-  inputErrorClass: 'popup__input_type_error'
-});
-
+addValidation(formDate);
 
 
 profileButton.addEventListener('click', function(){
@@ -91,8 +92,8 @@ profileButton.addEventListener('click', function(){
 });
 
 cardsButton.addEventListener('click', function (){
-  cardSubmitButton.classList.add('popup__button-save_inactive');
-  cardSubmitButton.setAttribute('disabled', 'disabled');
+  const placeValidation = new FormValidator(formDate, formCard);
+  placeValidation.disableButton(cardSubmitButton);
   cardsEdit.open();
 });  
 
