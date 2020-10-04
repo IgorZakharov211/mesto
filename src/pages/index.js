@@ -13,40 +13,40 @@ import {
   profileButton,
   profileName,
   profileJob,
-  formProfile,
   nameInput,
   jobInput,
   cardsButton,
   elements,
-  formCard
+  cardSubmitButton
 } from '../utils/constants.js';
 
+const popup = new PopupWithImage(modalWindowImage);
+popup.setEventListeners();
+
+// Создание карточки 
+const createCard = (item) =>{
+  const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
+    popup.open({src: item.url, alt: item.title});
+  }
+  });
+  const cardElement = card.generateCard();
+  cardsList.addItem(cardElement);
+}
+
+//Добавление 6 начальных карточек
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item.name, item.link, '#element', {handleCardClick: () => {
-      const popup = new PopupWithImage(modalWindowImage, {src: item.link, alt: item.name});
-      popup.open();
-      popup.setEventListeners();
-    }
-    });
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
+    createCard(item);
     },
   },
   elements
 );
 
+//Добавление карточки через форму
 const cardsEdit = new PopupWithForm(modalWindowCard, {
   formSubmitHandler: (item) => {
-    const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
-      const popup = new PopupWithImage(modalWindowImage, {src: item.url, alt: item.title});
-      popup.open();
-      popup.setEventListeners();
-    }
-    });
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
+    createCard(item);
   }
 });
 cardsEdit.setEventListeners();
@@ -61,33 +61,36 @@ const profileEdit = new PopupWithForm(modalWindowProfile, {
 const user = new UserInfo({profileName: profileName, profileJob: profileJob});
 profileEdit.setEventListeners();
 
+
+function addValidation(formConfig){
+  const formList = Array.from(document.querySelectorAll(formConfig.formSelector));  
+  formList.forEach((formElement) => {
+      const validation = new FormValidator(formConfig, formElement);
+      validation.enableValidation();
+  });
+}
+
+addValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_inactive',
+  inputErrorClass: 'popup__input_type_error'
+});
+
+
+
 profileButton.addEventListener('click', function(){
   profileEdit.open();
   const values = user.getUserInfo();
   nameInput.value = values.name;
   jobInput.value = values.job;
-  const profileValidation = new FormValidator(
-    {
-      formSelector: '.popup__form',
-      inputSelector: '.popup__input',
-      submitButtonSelector: '.popup__button-save',
-      inactiveButtonClass: 'popup__button-save_inactive',
-      inputErrorClass: 'popup__input_type_error'
-    }, formProfile);
-    profileValidation.enableValidation();
 });
 
 cardsButton.addEventListener('click', function (){
+  cardSubmitButton.classList.add('popup__button-save_inactive');
+  cardSubmitButton.setAttribute('disabled', 'disabled');
   cardsEdit.open();
-  const cardValidation = new FormValidator(
-    {
-      formSelector: '.popup__form',
-      inputSelector: '.popup__input',
-      submitButtonSelector: '.popup__button-save',
-      inactiveButtonClass: 'popup__button-save_inactive',
-      inputErrorClass: 'popup__input_type_error'
-    }, formCard);
-    cardValidation.enableValidation();
 });  
 
 

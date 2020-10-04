@@ -1,27 +1,27 @@
 export const initialCards = [
     {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+      title: 'Архыз',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
     {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+      title: 'Челябинская область',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
     },
     {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+      title: 'Иваново',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
     },
     {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+      title: 'Камчатка',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
     },
     {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+      title: 'Холмогорский район',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
     },
     {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+      title: 'Байкал',
+      url: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
 
@@ -36,4 +36,5 @@ export const nameInput = formProfile.elements.name; //Поле ввода име
 export const jobInput = formProfile.elements.job; //Поле ввода должности
 export const cardsButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
 export const elements = '.elements';  //Котнейнер с карточками
-export const formCard = document.forms.place; //форма добавления карточки
+const formCard = document.forms.place; //форма добавления карточки
+export const cardSubmitButton = formCard.querySelector('.popup__button-save');
