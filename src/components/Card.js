@@ -12,21 +12,18 @@ export default class Card {
     return cardElement;
   }
 
+  _toggleClass = (evt) =>{
+    evt.target.classList.toggle('element__like_active');
+  }
+
+  _targetRemove = (evt) => {
+    evt.target.parentElement.remove();
+  }
+
   _setEventListeners(){
-    this._element.querySelector('.element__like')
-    .addEventListener('click', (evt) => {
-        evt.target.classList.toggle('element__like_active');
-    });
-    this._element.querySelector('.element__remove')
-    .addEventListener('click', (evt) => {
-        evt.target.parentElement.remove();
-    });
-    this._element.querySelector('.element__link')
-    .addEventListener('click', (evt) => {
-      this._handleCardClick();
-      document.addEventListener('keydown', this._closeModalOnKey);
-    });
-    
+    this._element.querySelector('.element__like').addEventListener('click', this._toggleClass);
+    this._element.querySelector('.element__remove').addEventListener('click', this._targetRemove);
+    this._element.querySelector('.element__link').addEventListener('click', this._handleCardClick);
   }
   
   generateCard(){
