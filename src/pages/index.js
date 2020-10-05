@@ -20,7 +20,7 @@ const cardsButton = document.querySelector('.profile__add-button'); //Кнопк
 const elements = '.elements';  //Котнейнер с карточками
 const formCard = document.forms.place; //форма добавления карточки
 const cardSubmitButton = formCard.querySelector('.popup__button-save');
-const formDate = 
+const formData = 
 {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -71,17 +71,12 @@ const profileEdit = new PopupWithForm(modalWindowProfile, {
 const user = new UserInfo({profileName: profileName, profileJob: profileJob});
 profileEdit.setEventListeners();
 
+//Включение валидации для формы с добавлением карточек, необходимо для метода disableButton
+const placeValidation = new FormValidator(formData, formCard);
+placeValidation.enableValidation();
 
-function addValidation(formConfig){
-  const formList = Array.from(document.querySelectorAll(formConfig.formSelector));  
-  formList.forEach((formElement) => {
-      console.log(formElement);
-      const formsValidation = new FormValidator(formConfig, formElement);
-      formsValidation.enableValidation();
-  });
-}
-
-addValidation(formDate);
+const profileValidation = new FormValidator(formData, formProfile);
+profileValidation.enableValidation();
 
 
 profileButton.addEventListener('click', function(){
@@ -92,7 +87,6 @@ profileButton.addEventListener('click', function(){
 });
 
 cardsButton.addEventListener('click', function (){
-  const placeValidation = new FormValidator(formDate, formCard);
   placeValidation.disableButton(cardSubmitButton);
   cardsEdit.open();
 });  
