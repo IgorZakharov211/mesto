@@ -76,6 +76,17 @@
         <p class="popup__subtitle"></p>
       </div>  
     </div>
+    <div class="popup popup_opened" id="popup-confirm" >
+      <div class="popup__container">
+        <button class="popup__button-close"></button>
+        <form class="popup__form" action="#" method="POST" name="confirm" novalidate>
+          <fieldset class="popup__fieldset">
+            <h2 class="popup__heading popup__heading_margin_small">Вы уверены?</h2>
+            <button class="popup__button-save" type="submit">Да</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </div>
   <template id="element">
     <div class="element">
