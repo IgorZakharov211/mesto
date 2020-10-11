@@ -29,14 +29,25 @@ const formData =
   inputErrorClass: 'popup__input_type_error'
 };
 
+fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
+  headers: {
+    authorization: '6e729665-1bba-493d-86aa-08890e5fc87f'
+  }
+})
+.then(res => res.json())
+.then((result) => {
+  console.log(result);
+}); 
+    
+
 
 const popupCard = new PopupWithImage(modalWindowImage);
 popupCard.setEventListeners();
 
 // Создание карточки 
 const createCard = (item) =>{
-  const card = new Card(item.title, item.url, '#element', {handleCardClick: () => {
-    popupCard.open({src: item.url, alt: item.title});
+  const card = new Card({link: item.link, name: item.name}, '#element', {handleCardClick: () => {
+    popupCard.open({src: item.link, alt: item.name});
   }
   });
   const cardElement = card.generateCard();
@@ -47,7 +58,7 @@ const createCard = (item) =>{
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    createCard(item);
+    createCard({name: item.name, link: item.link});
     },
   },
   elements
@@ -56,7 +67,7 @@ const cardsList = new Section({
 //Добавление карточки через форму
 const cardsEdit = new PopupWithForm(modalWindowCard, {
   formSubmitHandler: (item) => {
-    createCard(item);
+    createCard({name: item.title, link: item.url});
   }
 });
 cardsEdit.setEventListeners();
