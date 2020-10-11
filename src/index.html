@@ -76,13 +76,28 @@
         <p class="popup__subtitle"></p>
       </div>  
     </div>
-    <div class="popup popup_opened" id="popup-confirm" >
+    <div class="popup" id="popup-confirm" >
       <div class="popup__container">
         <button class="popup__button-close"></button>
         <form class="popup__form" action="#" method="POST" name="confirm" novalidate>
           <fieldset class="popup__fieldset">
             <h2 class="popup__heading popup__heading_margin_small">Вы уверены?</h2>
             <button class="popup__button-save" type="submit">Да</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="popup" id="popup-avatar">
+      <div class="popup__container">
+        <button class="popup__button-close" type="button" aria-label="Закрыть"></button>
+        <form class="popup__form" action="#" method="POST" name="avatar" novalidate>
+          <fieldset class="popup__fieldset">
+            <h2 class="popup__heading">Обновить аватар</h2>
+            <label class="popup__field">
+              <input type="url" class="popup__input" placeholder="Ссылка на изображение" name="url" value="" required id="url-input">
+              <span class="popup__input-error" id="url-input-error"></span>
+            </label>
+            <button class="popup__button-save" type="submit">Сохранить</button>
           </fieldset>
         </form>
       </div>
