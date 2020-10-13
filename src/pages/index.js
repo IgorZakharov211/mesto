@@ -17,6 +17,7 @@ const profileName = document.querySelector('.profile__title'); //Имя на с�
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
 const profileAvatar = document.querySelector('.profile__image');  //Аватар
 const formProfile = document.forms.profile; //форма редактирования профиля
+const profileEditSave = formProfile.querySelector('.popup__button-save');
 const nameInput = formProfile.elements.name; //Поле ввода имени
 const jobInput = formProfile.elements.job; //Поле ввода должности
 const cardsButton = document.querySelector('.profile__add-button'); //Кнопка открытия окна добавления карточек
@@ -53,10 +54,11 @@ const cardsLoader = api.getInitialCards();
 cardsLoader.then((data)=>{
   const initCard = data.map(function (item){
     return {name: item.name,
-            link: item.link};
+            link: item.link,
+            likesCount: item.likes.length};
   });
   const createCard = (item) =>{
-    const card = new Card({link: item.link, name: item.name}, '#element', {handleCardClick: () => {
+    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount}, '#element', {handleCardClick: () => {
       popupCard.open({src: item.link, alt: item.name});
     }
     });
@@ -66,43 +68,61 @@ cardsLoader.then((data)=>{
   const cardsList = new Section({
     items: initCard,
     renderer: (item) => {
-      createCard({name: item.name, link: item.link});
+      createCard({name: item.name, link: item.link, likesCount: item.likesCount});
       },
     },
     elements
   );
   cardsList.renderItems();
+  const cardsEdit = new PopupWithForm(modalWindowCard, {
+    formSubmitHandler: (item) => {
+      api.postCard(item.title, item.url)
+      .then((res) => {
+        createCard({name: res.name, link: res.link});
+      })
+      .catch((err) =>{
+        console.log(err);
+      });
+    }
+  });
+  cardsEdit.setEventListeners();
+  cardsButton.addEventListener('click', function (){
+    placeValidation.disableButton(cardSubmitButton);
+    cardsEdit.open();
+  });
 });
-
-
-
 
 const popupCard = new PopupWithImage(modalWindowImage);
 popupCard.setEventListeners();
 
 //Добавление карточки через форму
-const cardsEdit = new PopupWithForm(modalWindowCard, {
-  formSubmitHandler: (item) => {
-    createCard({name: item.title, link: item.url});
-  }
-});
-cardsEdit.setEventListeners();
-
 const avatarEdit = new PopupWithForm(modalWindowAvatar, {
   formSubmitHandler: (item) => {
-    api.patchMyAvatar(item.url);
-    profileAvatar.src = item.url;
+    avatarSubmitButton.textContent +='...';
+    api.patchMyAvatar(item.url).then((res)=>{
+      user.setUserAvatar({avatarInput: res.avatar})
+      avatarSubmitButton.textContent = 'Сохранить';
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
   }
 });
 avatarEdit.setEventListeners();
 
 const profileEdit = new PopupWithForm(modalWindowProfile, {
   formSubmitHandler: (item) => {
-    user.setUserInfo({nameInput: item.name, jobInput: item.job});
-    api.patchMyInfo(item.name, item.job)
+    profileEditSave.textContent +='...';
+    api.patchMyInfo(item.name, item.job).then((res)=> {
+      user.setUserInfo({nameInput: res.name, jobInput: res.about});
+      profileEditSave.textContent = 'Сохранить';
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
   }
 });
-const user = new UserInfo({profileName: profileName, profileJob: profileJob});
+const user = new UserInfo({profileName: profileName, profileJob: profileJob, profileAvatar: profileAvatar});
 profileEdit.setEventListeners();
 
 //Включение валидации для формы с добавлением карточек, необходимо для метода disableButton
@@ -124,10 +144,7 @@ profileButton.addEventListener('click', function(){
   jobInput.value = values.job;
 });
 
-cardsButton.addEventListener('click', function (){
-  placeValidation.disableButton(cardSubmitButton);
-  cardsEdit.open();
-});
+
 
 avatarButton.addEventListener('click', function(){
   avatarEdit.open();

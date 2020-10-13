@@ -47,5 +47,17 @@ export default class Api{
     })
       .then((res) => this._checkRes(res))
   }
+
+  postCard(title, url){
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: title,
+        link: url
+      })
+    })
+      .then((res) => this._checkRes(res))
+  }
 }
 

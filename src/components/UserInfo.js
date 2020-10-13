@@ -1,7 +1,8 @@
 export default class UserInfo{
-  constructor({profileName, profileJob}){
+  constructor({profileName, profileJob, profileAvatar}){
     this._profileName = profileName;
     this._profileJob = profileJob;
+    this._profileAvatar = profileAvatar;
   }
 
   getUserInfo(){
@@ -11,5 +12,8 @@ export default class UserInfo{
   setUserInfo({nameInput, jobInput}){
     this._profileName.textContent = nameInput;
     this._profileJob.textContent = jobInput;
+  }
+  setUserAvatar({avatarInput}){
+    this._profileAvatar.src = avatarInput;
   }
 }
