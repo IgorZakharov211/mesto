@@ -1,11 +1,12 @@
 import '../pages/index.css';
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import {initialCards} from '../utils/constants.js';
+import {initialCards, apiOptions} from '../utils/constants.js';
 
 const modalWindowProfile = document.querySelector('#popup-profile'); //Окно с popup редактирования профиля
 const modalWindowCard = document.querySelector('#popup-place'); //Окно с popup редактирования места
@@ -13,6 +14,7 @@ const modalWindowImage = document.querySelector('#popup-card'); //Окно с po
 const profileButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
 const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
+const profileAvatar = document.querySelector('.profile__image');
 const formProfile = document.forms.profile; //форма редактирования профиля
 const nameInput = formProfile.elements.name; //Поле ввода имени
 const jobInput = formProfile.elements.job; //Поле ввода должности
@@ -29,15 +31,20 @@ const formData =
   inputErrorClass: 'popup__input_type_error'
 };
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
-  headers: {
-    authorization: '6e729665-1bba-493d-86aa-08890e5fc87f'
-  }
+
+
+const api = new Api({apiOptions});
+
+const myInfo = api.getMyInfo();
+myInfo.then((data)=>{
+  profileName.textContent = data.name;
+  profileJob.textContent = data.about;
+  profileAvatar.src = data.avatar;
 })
-.then(res => res.json())
-.then((result) => {
-  console.log(result);
-}); 
+.catch((err) =>{
+  console.log(err);
+})
+
     
 
 
