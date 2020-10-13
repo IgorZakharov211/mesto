@@ -4,6 +4,7 @@ import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import {initialCards, apiOptions} from '../utils/constants.js';
@@ -12,6 +13,7 @@ const modalWindowProfile = document.querySelector('#popup-profile'); //Окно 
 const modalWindowCard = document.querySelector('#popup-place'); //Окно с popup редактирования места
 const modalWindowImage = document.querySelector('#popup-card'); //Окно с popup изображением
 const modalWindowAvatar = document.querySelector('#popup-avatar'); //Окно с редактированием аватара
+const modalWindowConfirm = document.querySelector('#popup-confirm'); //Окно подтверждения удаления карточки
 const profileButton = document.querySelector('.profile__edit-button'); //Кнопка открытия окна редактирования
 const profileName = document.querySelector('.profile__title'); //Имя на странице в секции профиль
 const profileJob = document.querySelector('.profile__subtitle'); //Должность на странице в секции профиль
@@ -48,61 +50,72 @@ myInfo.then((data)=>{
   profileAvatar.src = data.avatar;
   const myId = data._id;
 
-const cardsLoader = api.getInitialCards();
-cardsLoader.then((data)=>{
-  const initCard = data.map(function (item){
-    return {name: item.name,
-            link: item.link,
-            likesCount: item.likes.length,
-            ownerId: item.owner._id};
-  });
-  const createCard = (item) =>{
-    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', 
-    {handleCardClick: () => {
-      popupCard.open({src: item.link, alt: item.name});
-    }},
-    {toggleRemoveButton: (element) =>{
-      const deleteButton = element.querySelector('.element__remove');
-      if(item.ownerId !== myId){
-        deleteButton.classList.add('element__remove_disabled');
-      } else if (deleteButton.classList.contains('element__remove_disabled')){
-        deleteButton.classList.remove('element__remove_disabled');
-      }}
+  const cardsLoader = api.getInitialCards();
+  cardsLoader.then((data)=>{
+    const initCard = data.map(function (item){
+      return {name: item.name,
+              link: item.link,
+              likesCount: item.likes.length,
+              ownerId: item.owner._id};
     });
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
-  }
-  const cardsList = new Section({
-    items: initCard,
-    renderer: (item) => {
-      createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId});
-      },
-    },
-    elements
-  );
-  cardsList.renderItems();
-  const cardsEdit = new PopupWithForm(modalWindowCard, {
-    formSubmitHandler: (item) => {
-      cardSubmitButton.textContent +='...';
-      api.postCard(item.title, item.url)
-      .then((res) => {
-        createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id});
-        cardSubmitButton.textContent = 'Создать';
-      })
-      .catch((err) =>{
-        console.log(err);
+
+
+    const createCard = (item) =>{
+      const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', 
+      {handleCardClick: () => {
+        popupCard.open({src: item.link, alt: item.name});
+      }},
+      {toggleRemoveButton: (element) =>{
+        const deleteButton = element.querySelector('.element__remove');
+        if(item.ownerId !== myId){
+          deleteButton.classList.add('element__remove_disabled');
+        } else if (deleteButton.classList.contains('element__remove_disabled')){
+          deleteButton.classList.remove('element__remove_disabled');
+        }}
       });
-    }
+      const cardElement = card.generateCard();
+      cardsList.addItem(cardElement);
+    };
+
+
+    const cardsList = new Section({
+      items: initCard,
+      renderer: (item) => {
+        createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId});
+      },
+    },elements);
+
+
+    cardsList.renderItems();
+    const cardsEdit = new PopupWithForm(modalWindowCard, {
+      formSubmitHandler: (item) => {
+        cardSubmitButton.textContent +='...';
+        api.postCard(item.title, item.url)
+        .then((res) => {
+          createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id});
+          cardSubmitButton.textContent = 'Создать';
+        })
+        .catch((err) =>{
+          console.log(err);
+        });
+      }
+    });
+
+
+    cardsEdit.setEventListeners();
+    cardsButton.addEventListener('click', function (){
+      placeValidation.disableButton(cardSubmitButton);
+      cardsEdit.open();
+    });
+
+    const popupConfirm = new PopupWithSubmit(modalWindowConfirm);
+    popupConfirm.open();
+    popupConfirm.setEventListeners();
+
+  })
+  .catch((err) =>{
+    console.log(err);
   });
-  cardsEdit.setEventListeners();
-  cardsButton.addEventListener('click', function (){
-    placeValidation.disableButton(cardSubmitButton);
-    cardsEdit.open();
-  });
-})
-.catch((err) =>{
-  console.log(err);
-});
 
 })
 .catch((err) =>{
