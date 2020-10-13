@@ -76,9 +76,11 @@ cardsLoader.then((data)=>{
   cardsList.renderItems();
   const cardsEdit = new PopupWithForm(modalWindowCard, {
     formSubmitHandler: (item) => {
+      cardSubmitButton.textContent +='...';
       api.postCard(item.title, item.url)
       .then((res) => {
-        createCard({name: res.name, link: res.link});
+        createCard({name: res.name, link: res.link, likesCount: res.likes.length});
+        cardSubmitButton.textContent = 'Создать';
       })
       .catch((err) =>{
         console.log(err);

@@ -26,6 +26,16 @@ export default class Card {
     this._element.querySelector('.element__remove').addEventListener('click', this._targetRemove);
     this._element.querySelector('.element__link').addEventListener('click', this._handleCardClick);
   }
+
+  
+  _toggleRemoveButton(){
+    if(!deleteCard){
+      const deleteButton = this._element.querySelector('.element__remove');
+      deleteButton.classList.add('element__remove_disabled');
+    } else if (deleteButton.classList.contains('element__remove_disabled')){
+      deleteButton.classList.remove('element__remove_disabled');
+    }
+  }
   
   generateCard(){
     this._element = this._getTemplate();
@@ -33,6 +43,7 @@ export default class Card {
     const cardImage = this._element.querySelector('.element__image');
     const cardTitle = this._element.querySelector('.element__title');
     const cardLikesCount = this._element.querySelector('.element__like-count');
+    //this._toggleRemoveButton();
     cardImage.src = this._link;
     cardImage.alt = this._name;
     cardLikesCount.textContent = this._likesCount;
