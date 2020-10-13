@@ -27,6 +27,7 @@ const cardSubmitButton = formCard.querySelector('.popup__button-save');  //Кн�
 const avatarButton = document.querySelector('.profile__avatar-edit'); //Кнопка редактирования аватара
 const formAvatar = document.forms.avatar; //Форма обновления аватара
 const avatarSubmitButton = formAvatar.querySelector('.popup__button-save'); //Кнопка редактирования аватара
+
 const formData = 
 {
   formSelector: '.popup__form',
@@ -42,18 +43,13 @@ const api = new Api({apiOptions});
 
 const myInfo = api.getMyInfo();
 myInfo.then((data)=>{
-  console.log(data);
   profileName.textContent = data.name;
   profileJob.textContent = data.about;
   profileAvatar.src = data.avatar;
-})
-.catch((err) =>{
-  console.log(err);
-});
+  const myId = data._id;
 
 const cardsLoader = api.getInitialCards();
 cardsLoader.then((data)=>{
-  console.log(data);
   const initCard = data.map(function (item){
     return {name: item.name,
             link: item.link,
@@ -61,9 +57,17 @@ cardsLoader.then((data)=>{
             ownerId: item.owner._id};
   });
   const createCard = (item) =>{
-    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', {handleCardClick: () => {
+    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', 
+    {handleCardClick: () => {
       popupCard.open({src: item.link, alt: item.name});
-    }
+    }},
+    {toggleRemoveButton: (element) =>{
+      const deleteButton = element.querySelector('.element__remove');
+      if(item.ownerId !== myId){
+        deleteButton.classList.add('element__remove_disabled');
+      } else if (deleteButton.classList.contains('element__remove_disabled')){
+        deleteButton.classList.remove('element__remove_disabled');
+      }}
     });
     const cardElement = card.generateCard();
     cardsList.addItem(cardElement);
@@ -82,7 +86,7 @@ cardsLoader.then((data)=>{
       cardSubmitButton.textContent +='...';
       api.postCard(item.title, item.url)
       .then((res) => {
-        createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: item.ownerId});
+        createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id});
         cardSubmitButton.textContent = 'Создать';
       })
       .catch((err) =>{
@@ -95,6 +99,14 @@ cardsLoader.then((data)=>{
     placeValidation.disableButton(cardSubmitButton);
     cardsEdit.open();
   });
+})
+.catch((err) =>{
+  console.log(err);
+});
+
+})
+.catch((err) =>{
+  console.log(err);
 });
 
 const popupCard = new PopupWithImage(modalWindowImage);
