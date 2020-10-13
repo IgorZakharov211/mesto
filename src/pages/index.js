@@ -42,6 +42,7 @@ const api = new Api({apiOptions});
 
 const myInfo = api.getMyInfo();
 myInfo.then((data)=>{
+  console.log(data);
   profileName.textContent = data.name;
   profileJob.textContent = data.about;
   profileAvatar.src = data.avatar;
@@ -52,13 +53,15 @@ myInfo.then((data)=>{
 
 const cardsLoader = api.getInitialCards();
 cardsLoader.then((data)=>{
+  console.log(data);
   const initCard = data.map(function (item){
     return {name: item.name,
             link: item.link,
-            likesCount: item.likes.length};
+            likesCount: item.likes.length,
+            ownerId: item.owner._id};
   });
   const createCard = (item) =>{
-    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount}, '#element', {handleCardClick: () => {
+    const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', {handleCardClick: () => {
       popupCard.open({src: item.link, alt: item.name});
     }
     });
@@ -68,7 +71,7 @@ cardsLoader.then((data)=>{
   const cardsList = new Section({
     items: initCard,
     renderer: (item) => {
-      createCard({name: item.name, link: item.link, likesCount: item.likesCount});
+      createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId});
       },
     },
     elements
@@ -79,7 +82,7 @@ cardsLoader.then((data)=>{
       cardSubmitButton.textContent +='...';
       api.postCard(item.title, item.url)
       .then((res) => {
-        createCard({name: res.name, link: res.link, likesCount: res.likes.length});
+        createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: item.ownerId});
         cardSubmitButton.textContent = 'Создать';
       })
       .catch((err) =>{
