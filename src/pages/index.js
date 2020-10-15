@@ -4,7 +4,7 @@ import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import PopupWithSubmit from '../components/PopupWithSubmit.js';
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import {initialCards, apiOptions} from '../utils/constants.js';
@@ -56,12 +56,15 @@ myInfo.then((data)=>{
       return {name: item.name,
               link: item.link,
               likesCount: item.likes.length,
+              id: item._id,
               ownerId: item.owner._id};
     });
+    
 
+    
 
     const createCard = (item) =>{
-      const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId}, '#element', 
+      const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id}, '#element', 
       {handleCardClick: () => {
         popupCard.open({src: item.link, alt: item.name});
       }},
@@ -72,16 +75,34 @@ myInfo.then((data)=>{
         } else if (deleteButton.classList.contains('element__remove_disabled')){
           deleteButton.classList.remove('element__remove_disabled');
         }}
-      });
+      },
+      {deleteCard: (evt) =>{
+        const popupConfirm = new PopupWithConfirm(modalWindowConfirm, {
+          formConfirmHandler: () =>{
+            api.deleteCard(item.id)
+            .then((res) => {
+              card.removeCard(evt);
+              console.log(res);
+            })
+            .catch((err) =>{
+              console.log(err);
+            });
+          }
+        });
+        popupConfirm.setEventListeners();
+        popupConfirm.open();
+      }
+
+      }
+      );
       const cardElement = card.generateCard();
       cardsList.addItem(cardElement);
     };
 
-
     const cardsList = new Section({
       items: initCard,
       renderer: (item) => {
-        createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId});
+        createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id});
       },
     },elements);
 
@@ -92,7 +113,7 @@ myInfo.then((data)=>{
         cardSubmitButton.textContent +='...';
         api.postCard(item.title, item.url)
         .then((res) => {
-          createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id});
+          createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id, id: res._id});
           cardSubmitButton.textContent = 'Создать';
         })
         .catch((err) =>{
@@ -108,9 +129,7 @@ myInfo.then((data)=>{
       cardsEdit.open();
     });
 
-    const popupConfirm = new PopupWithSubmit(modalWindowConfirm);
-    popupConfirm.open();
-    popupConfirm.setEventListeners();
+    
 
   })
   .catch((err) =>{

@@ -1,13 +1,15 @@
 export default class Card {
 
-  constructor({name, link, likesCount, ownerId}, cardSelector, {handleCardClick}, {toggleRemoveButton}){
+  constructor({name, link, likesCount, ownerId, id}, cardSelector, {handleCardClick}, {toggleRemoveButton}, {deleteCard}){
     this._cardSelector = cardSelector;
     this._link = link;
     this._name = name;
     this._likesCount = likesCount;
     this._ownerId = ownerId;
+    this._id = id;
     this._handleCardClick = handleCardClick;
     this._toggleRemoveButton = toggleRemoveButton;
+    this._deleteCard = deleteCard;
   }
 
   _getTemplate(){
@@ -19,13 +21,15 @@ export default class Card {
     evt.target.classList.toggle('element__like_active');
   }
 
-  _targetRemove = (evt) => {
-    evt.target.parentElement.remove();
+  removeCard(evtOut){
+    evtOut.target.parentElement.remove();
   }
 
   _setEventListeners(){
     this._element.querySelector('.element__like').addEventListener('click', this._toggleClass);
-    this._element.querySelector('.element__remove').addEventListener('click', this._targetRemove);
+    this._element.querySelector('.element__remove').addEventListener('click', (evt) => {
+      this._deleteCard(evt);
+    });
     this._element.querySelector('.element__link').addEventListener('click', this._handleCardClick);
   }
 
