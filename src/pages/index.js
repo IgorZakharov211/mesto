@@ -7,7 +7,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import {initialCards, apiOptions} from '../utils/constants.js';
+import {apiOptions} from '../utils/constants.js';
 
 const modalWindowProfile = document.querySelector('#popup-profile'); //Окно с popup редактирования профиля
 const modalWindowCard = document.querySelector('#popup-place'); //Окно с popup редактирования места
@@ -113,7 +113,6 @@ myInfo.then((data)=>{
         if(item.myLike){
           api.deleteLike(item.id)
           .then((res) =>{
-            console.log(res);
             evt.target.parentElement.querySelector('.element__like-count').textContent = res.likes.length;
             card.toggleClass(evt);
             item.myLike = false;
@@ -124,7 +123,6 @@ myInfo.then((data)=>{
         } else{
           api.putLike(item.id)
           .then((res) =>{
-            console.log(res);
             evt.target.parentElement.querySelector('.element__like-count').textContent= res.likes.length;
             card.toggleClass(evt);
             item.myLike = true;
