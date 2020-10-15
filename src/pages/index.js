@@ -49,22 +49,27 @@ myInfo.then((data)=>{
   profileJob.textContent = data.about;
   profileAvatar.src = data.avatar;
   const myId = data._id;
-
+  let myLike = false;
   const cardsLoader = api.getInitialCards();
   cardsLoader.then((data)=>{
     const initCard = data.map(function (item){
+      myLike = item.likes.some(function(res){ 
+        return res._id === myId;
+      });
       return {name: item.name,
               link: item.link,
               likesCount: item.likes.length,
               id: item._id,
-              ownerId: item.owner._id};
+              ownerId: item.owner._id,
+              myLike: myLike
+            };
     });
     
 
     
 
     const createCard = (item) =>{
-      const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id}, '#element', 
+      const card = new Card({link: item.link, name: item.name, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id, myLike: item.myLike}, '#element', 
       {handleCardClick: () => {
         popupCard.open({src: item.link, alt: item.name});
       }},
@@ -75,6 +80,16 @@ myInfo.then((data)=>{
         } else if (deleteButton.classList.contains('element__remove_disabled')){
           deleteButton.classList.remove('element__remove_disabled');
         }}
+      },
+      {toggleLike: (element) =>{
+        const likeButton = element.querySelector('.element__like');
+        if(item.myLike){
+          likeButton.classList.add('element__like_active');
+        } else if(likeButton.classList.contains('element__like_active')){
+          likeButton.classList.remove('element__like_active');
+        }
+      }
+
       },
       {deleteCard: (evt) =>{
         const popupConfirm = new PopupWithConfirm(modalWindowConfirm, {
@@ -93,8 +108,32 @@ myInfo.then((data)=>{
         popupConfirm.open();
       }
 
-      }
-      );
+      },
+      {likeCard: (evt) =>{
+        if(item.myLike){
+          api.deleteLike(item.id)
+          .then((res) =>{
+            console.log(res);
+            evt.target.parentElement.querySelector('.element__like-count').textContent = res.likes.length;
+            card.toggleClass(evt);
+            item.myLike = false;
+          })
+          .catch((err) =>{
+            console.log(err);
+          });
+        } else{
+          api.putLike(item.id)
+          .then((res) =>{
+            console.log(res);
+            evt.target.parentElement.querySelector('.element__like-count').textContent= res.likes.length;
+            card.toggleClass(evt);
+            item.myLike = true;
+          })
+          .catch((err) =>{
+            console.log(err);
+          });
+        } 
+      }});
       const cardElement = card.generateCard();
       cardsList.addItem(cardElement);
     };
@@ -102,7 +141,7 @@ myInfo.then((data)=>{
     const cardsList = new Section({
       items: initCard,
       renderer: (item) => {
-        createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id});
+        createCard({name: item.name, link: item.link, likesCount: item.likesCount, ownerId: item.ownerId, id: item.id, myLike: item.myLike});
       },
     },elements);
 
@@ -113,7 +152,7 @@ myInfo.then((data)=>{
         cardSubmitButton.textContent +='...';
         api.postCard(item.title, item.url)
         .then((res) => {
-          createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id, id: res._id});
+          createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id, id: res._id,  myLike: false});
           cardSubmitButton.textContent = 'Создать';
         })
         .catch((err) =>{

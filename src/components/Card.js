@@ -1,15 +1,18 @@
 export default class Card {
 
-  constructor({name, link, likesCount, ownerId, id}, cardSelector, {handleCardClick}, {toggleRemoveButton}, {deleteCard}){
+  constructor({name, link, likesCount, ownerId, id, myLike}, cardSelector, {handleCardClick}, {toggleRemoveButton}, {toggleLike}, {deleteCard}, {likeCard}){
     this._cardSelector = cardSelector;
     this._link = link;
     this._name = name;
     this._likesCount = likesCount;
     this._ownerId = ownerId;
     this._id = id;
+    this._myLike = myLike;
     this._handleCardClick = handleCardClick;
     this._toggleRemoveButton = toggleRemoveButton;
+    this._toggleLike = toggleLike;
     this._deleteCard = deleteCard;
+    this._likeCard = likeCard;
   }
 
   _getTemplate(){
@@ -17,8 +20,8 @@ export default class Card {
     return cardElement;
   }
 
-  _toggleClass = (evt) =>{
-    evt.target.classList.toggle('element__like_active');
+  toggleClass(evtOut){
+    evtOut.target.classList.toggle('element__like_active');
   }
 
   removeCard(evtOut){
@@ -26,7 +29,9 @@ export default class Card {
   }
 
   _setEventListeners(){
-    this._element.querySelector('.element__like').addEventListener('click', this._toggleClass);
+    this._element.querySelector('.element__like').addEventListener('click', (evt) => {
+      this._likeCard(evt);
+    });
     this._element.querySelector('.element__remove').addEventListener('click', (evt) => {
       this._deleteCard(evt);
     });
@@ -39,6 +44,7 @@ export default class Card {
     const cardImage = this._element.querySelector('.element__image');
     const cardTitle = this._element.querySelector('.element__title');
     const cardLikesCount = this._element.querySelector('.element__like-count');
+    this._toggleLike(this._element);
     this._toggleRemoveButton(this._element);
     cardImage.src = this._link;
     cardImage.alt = this._name;
