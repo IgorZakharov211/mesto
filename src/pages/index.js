@@ -42,12 +42,20 @@ const formData =
 
 
 const api = new Api({apiOptions});
+const user = new UserInfo({profileName: profileName, profileJob: profileJob, profileAvatar: profileAvatar});
+
+function renderLoading(bool, buttonSelector){
+  if(bool){
+    buttonSelector.textContent += '...';
+  } else{
+    buttonSelector.textContent = buttonSelector.textContent.slice(0, -3);
+  }
+}
 
 const myInfo = api.getMyInfo();
 myInfo.then((data)=>{
-  profileName.textContent = data.name;
-  profileJob.textContent = data.about;
-  profileAvatar.src = data.avatar;
+  user.setUserInfo({nameInput: data.name, jobInput: data.about});
+  user.setUserAvatar({avatarInput: data.avatar});
   const myId = data._id;
   let myLike = false;
   const cardsLoader = api.getInitialCards();
@@ -73,23 +81,9 @@ myInfo.then((data)=>{
       {handleCardClick: () => {
         popupCard.open({src: item.link, alt: item.name});
       }},
-      {toggleRemoveButton: (element) =>{
-        const deleteButton = element.querySelector('.element__remove');
-        if(item.ownerId !== myId){
-          deleteButton.classList.add('element__remove_disabled');
-        } else if (deleteButton.classList.contains('element__remove_disabled')){
-          deleteButton.classList.remove('element__remove_disabled');
-        }}
-      },
-      {toggleLike: (element) =>{
-        const likeButton = element.querySelector('.element__like');
-        if(item.myLike){
-          likeButton.classList.add('element__like_active');
-        } else if(likeButton.classList.contains('element__like_active')){
-          likeButton.classList.remove('element__like_active');
-        }
+      {removeButtonHandler: () =>{
+        card.toggleRemoveButton(myId);
       }
-
       },
       {deleteCard: (evt) =>{
         const popupConfirm = new PopupWithConfirm(modalWindowConfirm, {
@@ -98,6 +92,7 @@ myInfo.then((data)=>{
             .then((res) => {
               card.removeCard(evt);
               console.log(res);
+              popupConfirm.close();
             })
             .catch((err) =>{
               console.log(err);
@@ -113,7 +108,7 @@ myInfo.then((data)=>{
         if(item.myLike){
           api.deleteLike(item.id)
           .then((res) =>{
-            evt.target.parentElement.querySelector('.element__like-count').textContent = res.likes.length;
+            card.likeCounter(evt, res);
             card.toggleClass(evt);
             item.myLike = false;
           })
@@ -123,7 +118,7 @@ myInfo.then((data)=>{
         } else{
           api.putLike(item.id)
           .then((res) =>{
-            evt.target.parentElement.querySelector('.element__like-count').textContent= res.likes.length;
+            card.likeCounter(evt, res);
             card.toggleClass(evt);
             item.myLike = true;
           })
@@ -147,14 +142,17 @@ myInfo.then((data)=>{
     cardsList.renderItems();
     const cardsEdit = new PopupWithForm(modalWindowCard, {
       formSubmitHandler: (item) => {
-        cardSubmitButton.textContent +='...';
+        renderLoading(true, cardSubmitButton);
         api.postCard(item.title, item.url)
         .then((res) => {
           createCard({name: res.name, link: res.link, likesCount: res.likes.length, ownerId: res.owner._id, id: res._id,  myLike: false});
-          cardSubmitButton.textContent = 'Создать';
+          cardsEdit.close();
         })
         .catch((err) =>{
           console.log(err);
+        })
+        .finally(()=>{
+          renderLoading(false, cardSubmitButton);
         });
       }
     });
@@ -184,13 +182,16 @@ popupCard.setEventListeners();
 //Добавление карточки через форму
 const avatarEdit = new PopupWithForm(modalWindowAvatar, {
   formSubmitHandler: (item) => {
-    avatarSubmitButton.textContent +='...';
+    renderLoading(true, avatarSubmitButton);
     api.patchMyAvatar(item.url).then((res)=>{
-      user.setUserAvatar({avatarInput: res.avatar})
-      avatarSubmitButton.textContent = 'Сохранить';
+      user.setUserAvatar({avatarInput: res.avatar});
+      avatarEdit.close();
     })
     .catch((err) =>{
       console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, avatarSubmitButton);
     });
   }
 });
@@ -198,17 +199,20 @@ avatarEdit.setEventListeners();
 
 const profileEdit = new PopupWithForm(modalWindowProfile, {
   formSubmitHandler: (item) => {
-    profileEditSave.textContent +='...';
+    renderLoading(true, profileEditSave);
     api.patchMyInfo(item.name, item.job).then((res)=> {
       user.setUserInfo({nameInput: res.name, jobInput: res.about});
-      profileEditSave.textContent = 'Сохранить';
+      profileEdit.close();
     })
     .catch((err) =>{
       console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, profileEditSave);
     });
   }
 });
-const user = new UserInfo({profileName: profileName, profileJob: profileJob, profileAvatar: profileAvatar});
+
 profileEdit.setEventListeners();
 
 //Включение валидации для формы с добавлением карточек, необходимо для метода disableButton

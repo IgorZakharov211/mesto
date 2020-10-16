@@ -1,6 +1,6 @@
 export default class Card {
 
-  constructor({name, link, likesCount, ownerId, id, myLike}, cardSelector, {handleCardClick}, {toggleRemoveButton}, {toggleLike}, {deleteCard}, {likeCard}){
+  constructor({name, link, likesCount, ownerId, id, myLike}, cardSelector, {handleCardClick}, {removeButtonHandler}, {deleteCard}, {likeCard}){
     this._cardSelector = cardSelector;
     this._link = link;
     this._name = name;
@@ -9,8 +9,7 @@ export default class Card {
     this._id = id;
     this._myLike = myLike;
     this._handleCardClick = handleCardClick;
-    this._toggleRemoveButton = toggleRemoveButton;
-    this._toggleLike = toggleLike;
+    this._removeButtonHandler = removeButtonHandler;
     this._deleteCard = deleteCard;
     this._likeCard = likeCard;
   }
@@ -38,14 +37,37 @@ export default class Card {
     this._element.querySelector('.element__link').addEventListener('click', this._handleCardClick);
   }
 
+  toggleRemoveButton(myId){
+    const deleteButton = this._element.querySelector('.element__remove');
+    if(this._ownerId !== myId){
+      deleteButton.classList.add('element__remove_disabled');
+    } else if (deleteButton.classList.contains('element__remove_disabled')){
+      deleteButton.classList.remove('element__remove_disabled');
+    }
+  }
+
+  _toggleLike(){
+    const likeButton = this._element.querySelector('.element__like');
+        if(this._myLike){
+          likeButton.classList.add('element__like_active');
+        } else if(likeButton.classList.contains('element__like_active')){
+          likeButton.classList.remove('element__like_active');
+    }
+  }
+
+  likeCounter(evt, res){
+    evt.target.parentElement.querySelector('.element__like-count').textContent = res.likes.length;
+  }
+  
+
   generateCard(){
     this._element = this._getTemplate();
     this._setEventListeners();
     const cardImage = this._element.querySelector('.element__image');
     const cardTitle = this._element.querySelector('.element__title');
     const cardLikesCount = this._element.querySelector('.element__like-count');
-    this._toggleLike(this._element);
-    this._toggleRemoveButton(this._element);
+    this._toggleLike();
+    this._removeButtonHandler();
     cardImage.src = this._link;
     cardImage.alt = this._name;
     cardLikesCount.textContent = this._likesCount;
