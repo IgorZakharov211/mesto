@@ -24,7 +24,7 @@
 * Использован **Webpack** для сборки проекта.
 
 
-[**Ссылка на сайт**](https://igorzakharov211.github.io/mesto/)
+[**Ссылка на сайт**](http://zakharov-igor-mesto.surge.sh/)
 
 ## Планы по доработке
 
